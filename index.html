@@ -14,9 +14,9 @@
     <body>
         <header>
             <p id="logo">Countries</p>
-            <p id="mode">Dark Mode</p>
+            <p id="dark" onclick="cambiarModo()">Dark Mode</p>
         </header>
-        <form style="display: none">
+        <form>
             <input type="text" placeholder="Search" aria-label="Search field" />
             <img src="icons/lupa.png" width="20" height="20" alt="Search" />
         </form>
@@ -76,6 +76,19 @@
                     sec.clientWidth / (cell.offsetWidth + cellMargin)
                 );
                 grid.style.gridTemplateColumns = `repeat(${num}, 1fr)`;
+            }
+
+            function cambiarModo() {
+                document.body.classList.toggle("dark");
+                document.querySelector("form").classList.toggle("dark-element");
+                document
+                    .querySelector("header")
+                    .classList.toggle("dark-element");
+                document
+                    .querySelectorAll("section div div ul")
+                    .forEach((obj) => {
+                        obj.classList.toggle("dark-element");
+                    });
             }
         </script>
         <script src="js/index.js"></script>

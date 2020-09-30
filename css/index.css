@@ -29,7 +29,8 @@ header {
     font-size: 1.5em;
 }
 
-#mode:hover {
+#clear:hover,
+#dark:hover {
     cursor: pointer;
 }
 
@@ -63,7 +64,7 @@ input[type=text] {
 
 input[type=text],
 #search {
-    background: hsl(0, 0%, 100%);
+    background: inherit;
     padding: 1px 5px;
     border: none;
     outline: none;
@@ -140,4 +141,13 @@ section div div div,
 section div div,
 section {
     /*border: 2px solid black;*/
+}
+
+.dark {
+    background-color: hsl(207, 26%, 17%);
+    color: white;
+}
+
+.dark-element {
+    background-color: hsl(209, 23%, 22%);
 }
