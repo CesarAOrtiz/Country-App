@@ -5,14 +5,19 @@
 }
 
 body {
-    color: hsl(200, 15%, 8%);
-    background: hsl(0, 0%, 88%);
+    /*
+    --pc: hsl(0, 2%, 48%);
+    --ebg: hsl(0, 0%, 100%);
+    --lc: hsl(200, 15%, 8%);
+    --bgc: hsl(0, 0%, 88%);*/
+    color: var(--lc);
+    background-color: var(--bgc);
     padding: 50px 0px;
     font-family: sans-serif;
 }
 
 header {
-    background: hsl(0, 0%, 100%);
+    background: var(--ebg);
     position: absolute;
     top: 0;
     left: 0;
@@ -43,26 +48,16 @@ section div div ul {
 }
 
 form {
-    background: hsl(0, 0%, 100%);
+    background: var(--ebg);
     border-radius: 20px;
-    box-shadow: 0px 3px 5px rgba(0, 0, 0, .3);
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
     max-width: 600px;
     width: 80%;
     margin: 10px auto;
     padding: 5px 0px;
-    /*position: fixed;
-    top: 4%;
-    left: 0;
-    right: 0;
-    z-index: 50;*/
 }
 
-input[type=text] {
-    width: 80%;
-    height: 24px;
-}
-
-input[type=text],
+input[type="text"],
 #search {
     background: inherit;
     padding: 1px 5px;
@@ -70,6 +65,13 @@ input[type=text],
     outline: none;
 }
 
+input[type="text"] {
+    width: 80%;
+    height: 24px;
+}
+input[type="text"]::placeholder {
+    color: var(--pc);
+}
 #search:hover {
     cursor: pointer;
 }
@@ -88,7 +90,7 @@ section div div {
     height: 280px;
     margin: 10px;
     flex-direction: column;
-    box-shadow: 0px 5px 5px rgba(0, 0, 0, .3);
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
 }
 
@@ -109,7 +111,7 @@ section div div div img {
     height: auto;
 }
 
-@supports(object-fit: cover) {
+@supports (object-fit: cover) {
     section div div div img {
         height: 100%;
         object-fit: cover;
@@ -123,7 +125,7 @@ section div div ul {
     padding: 0px 5px;
     flex-direction: column;
     align-items: flex-start;
-    background: hsl(0, 0%, 100%);
+    background: var(--ebg);
     border-radius: 0px 0px 10px 10px;
 }
 
@@ -136,18 +138,43 @@ section div div ul li:nth-child(1) {
     font-weight: 700;
 }
 
-section div div ul,
-section div div div,
-section div div,
-section {
-    /*border: 2px solid black;*/
+@media (prefers-color-scheme: dark) {
+    body {
+        --pc: rgb(155, 153, 153);
+        --ebg: hsl(209, 23%, 22%);
+        --lc: hsl(0, 0%, 100%);
+        --bgc: hsl(207, 26%, 17%);
+        background: var(--bgc);
+        color: var(--lc);
+    }
+    header,
+    section div div ul,
+    form {
+        background-color: var(--ebg);
+    }
+    input[type="text"] {
+        color: var(--lc);
+    }
+    input[type="text"]::placeholder {
+        color: var(--pc);
+    }
 }
 
-.dark {
-    background-color: hsl(207, 26%, 17%);
-    color: white;
-}
-
-.dark-element {
-    background-color: hsl(209, 23%, 22%);
+@media (prefers-color-scheme: light) {
+    body {
+        --pc: hsl(0, 2%, 48%);
+        --ebg: hsl(0, 0%, 100%);
+        --lc: hsl(200, 15%, 8%);
+        --bgc: hsl(0, 0%, 88%);
+        color: var(--lc);
+        background-color: var(--bgc);
+    }
+    header,
+    section div div ul,
+    form {
+        background-color: var(--ebg);
+    }
+    input[type="text"] {
+        color: var(--lc);
+    }
 }

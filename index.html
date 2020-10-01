@@ -7,14 +7,14 @@
             name="description"
             content="A website to display important information about all the countries of the world"
         />
-        <link rel="icon" href="favicon/favicon.png" type="image/png" />
+        <link rel="icon" href="favicon/icon.ico" type="favicon" />
         <link rel="stylesheet" href="css/index.css" />
         <title>Country App</title>
     </head>
     <body>
         <header>
             <p id="logo">Countries</p>
-            <p id="dark" onclick="cambiarModo()">Dark Mode</p>
+            <p id="dark" onclick="changeMode()">Dark Mode</p>
         </header>
         <form>
             <input type="text" placeholder="Search" aria-label="Search field" />
@@ -22,7 +22,7 @@
         </form>
         <section>
             <div>
-                <div>
+                <div style="opacity: 0">
                     <div></div>
                     <ul>
                         <li>Country</li>
@@ -78,17 +78,21 @@
                 grid.style.gridTemplateColumns = `repeat(${num}, 1fr)`;
             }
 
-            function cambiarModo() {
-                document.body.classList.toggle("dark");
-                document.querySelector("form").classList.toggle("dark-element");
-                document
-                    .querySelector("header")
-                    .classList.toggle("dark-element");
-                document
-                    .querySelectorAll("section div div ul")
-                    .forEach((obj) => {
-                        obj.classList.toggle("dark-element");
-                    });
+            function changeMode() {
+                let body = document.querySelector("body");
+                let bg = window.getComputedStyle(body).backgroundColor;
+                let colors = body.style;
+                colors.setProperty("--pc", "hsl(0, 0%, 55%)");
+                if (bg == "rgb(224, 224, 224)") {
+                    colors.setProperty("--bgc", "hsl(207, 26%, 17%)");
+                    colors.setProperty("--ebg", "hsl(209, 23%, 22%)");
+                    colors.setProperty("--lc", "hsl(0, 0%, 100%)");
+                }
+                if (bg == "rgb(32, 44, 55)") {
+                    colors.setProperty("--bgc", "hsl(0, 0%, 88%)");
+                    colors.setProperty("--ebg", "hsl(0, 0%, 100%)");
+                    colors.setProperty("--lc", "hsl(200, 15%, 8%)");
+                }
             }
         </script>
         <script src="js/index.js"></script>
