@@ -34,14 +34,13 @@ header {
     font-size: 1.5em;
 }
 
-#clear:hover,
-#dark:hover {
+#mode:hover {
     cursor: pointer;
 }
 
 form,
-section,
-section div div ul {
+#main-content,
+.block ul {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,71 +56,69 @@ form {
     padding: 5px 0px;
 }
 
-input[type="text"],
-#search {
+#search-field {
     background: inherit;
     padding: 1px 5px;
     border: none;
     outline: none;
-}
-
-input[type="text"] {
     width: 80%;
     height: 24px;
 }
-input[type="text"]::placeholder {
-    color: var(--pc);
+
+#search-field::placeholder {
+    color: hsl(0, 0%, 55%);
 }
+
 #search:hover {
     cursor: pointer;
 }
 
-section {
+#main-content {
     width: 90%;
     margin: 20px auto;
 }
 
-section div {
+#container {
     display: grid;
 }
 
-section div div {
+.block {
     width: 220px;
-    height: 280px;
+    height: 300px;
     margin: 10px;
     flex-direction: column;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
 }
 
-section div div:hover {
+.block:hover {
     cursor: pointer;
 }
 
-section div div div {
+.block div {
     width: 100%;
-    height: 140px;
+    height: 150px;
     margin: 0px;
     border-radius: 10px 10px 0px 0px;
 }
 
-section div div div img {
+.block div img {
     border-radius: 10px 10px 0px 0px;
     width: 100%;
     height: auto;
 }
 
 @supports (object-fit: cover) {
-    section div div div img {
+    .block div img {
         height: 100%;
         object-fit: cover;
         object-position: center center;
     }
 }
 
-section div div ul {
+.block ul {
     width: 100%;
-    height: 140px;
+    height: 150px;
     padding: 0px 5px;
     flex-direction: column;
     align-items: flex-start;
@@ -129,52 +126,51 @@ section div div ul {
     border-radius: 0px 0px 10px 10px;
 }
 
-section div div ul li {
+.block ul li {
     margin: 5px 5px;
     list-style: none;
 }
 
-section div div ul li:nth-child(1) {
+.block ul li:nth-child(1) {
     font-weight: 700;
 }
 
 @media (prefers-color-scheme: dark) {
     body {
-        --pc: rgb(155, 153, 153);
         --ebg: hsl(209, 23%, 22%);
         --lc: hsl(0, 0%, 100%);
-        --bgc: hsl(207, 26%, 17%);
+        --bgc: rgb(32, 44, 55);
         background: var(--bgc);
         color: var(--lc);
     }
+
     header,
-    section div div ul,
+    .block ul,
     form {
         background-color: var(--ebg);
     }
-    input[type="text"] {
+
+    #search-field {
         color: var(--lc);
-    }
-    input[type="text"]::placeholder {
-        color: var(--pc);
     }
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: light) and (prefers-color-scheme: no-preference) {
     body {
-        --pc: hsl(0, 2%, 48%);
         --ebg: hsl(0, 0%, 100%);
         --lc: hsl(200, 15%, 8%);
-        --bgc: hsl(0, 0%, 88%);
+        --bgc: rgb(224, 224, 224);
         color: var(--lc);
         background-color: var(--bgc);
     }
+
     header,
-    section div div ul,
+    .block ul,
     form {
         background-color: var(--ebg);
     }
-    input[type="text"] {
+
+    #search-field {
         color: var(--lc);
     }
 }

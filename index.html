@@ -14,15 +14,27 @@
     <body>
         <header>
             <p id="logo">Countries</p>
-            <p id="dark" onclick="changeMode()">Dark Mode</p>
+            <p id="mode" onclick="changeMode()">Dark Mode</p>
         </header>
         <form>
-            <input type="text" placeholder="Search" aria-label="Search field" />
-            <img src="icons/lupa.png" width="20" height="20" alt="Search" />
+            <input
+                id="search-field"
+                type="text"
+                placeholder="Search"
+                aria-label="Search field"
+                onchange=""
+            />
+            <img
+                id="search"
+                src="icons/lupa.png"
+                width="20px"
+                height="20px"
+                alt="Search"
+            />
         </form>
-        <section>
-            <div>
-                <div style="opacity: 0">
+        <section id="main-content">
+            <div id="container">
+                <div class="block" style="opacity: 0">
                     <div></div>
                     <ul>
                         <li>Country</li>
@@ -33,68 +45,6 @@
                 </div>
             </div>
         </section>
-        <script>
-            window.onload = callAPI;
-            window.onresize = gridLayout;
-
-            async function callAPI() {
-                try {
-                    const response = await fetch(
-                        "https://restcountries.eu/rest/v2/all?fields=name;capital;flag;region;population"
-                    );
-                    const data = await response.json();
-                    gridLayout();
-                    await show(data);
-                } catch (error) {
-                    console.log(error);
-                }
-            }
-
-            async function show(object) {
-                html = "";
-                object.forEach((element) => {
-                    html += `
-                <div>
-                    <div><img src="${element.flag}" alt="Flag"></div>
-                    <ul>
-                        <li>${element.name}</li>
-                        <li>Capital: ${element.capital}</li>
-                        <li>Region: ${element.region}</li>
-                        <li>Poblacion: ${element.population}</li>
-                    </ul>
-                </div>`;
-                });
-                document.querySelector("section div").innerHTML = html;
-            }
-
-            function gridLayout() {
-                let sec = document.querySelector("section");
-                let grid = document.querySelector("section div");
-                let cell = document.querySelector("section div div");
-                let cellMargin = parseInt(window.getComputedStyle(cell).margin);
-                let num = parseInt(
-                    sec.clientWidth / (cell.offsetWidth + cellMargin)
-                );
-                grid.style.gridTemplateColumns = `repeat(${num}, 1fr)`;
-            }
-
-            function changeMode() {
-                let body = document.querySelector("body");
-                let bg = window.getComputedStyle(body).backgroundColor;
-                let colors = body.style;
-                colors.setProperty("--pc", "hsl(0, 0%, 55%)");
-                if (bg == "rgb(224, 224, 224)") {
-                    colors.setProperty("--bgc", "hsl(207, 26%, 17%)");
-                    colors.setProperty("--ebg", "hsl(209, 23%, 22%)");
-                    colors.setProperty("--lc", "hsl(0, 0%, 100%)");
-                }
-                if (bg == "rgb(32, 44, 55)") {
-                    colors.setProperty("--bgc", "hsl(0, 0%, 88%)");
-                    colors.setProperty("--ebg", "hsl(0, 0%, 100%)");
-                    colors.setProperty("--lc", "hsl(200, 15%, 8%)");
-                }
-            }
-        </script>
         <script src="js/index.js"></script>
     </body>
 </html>
