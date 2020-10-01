@@ -59,6 +59,7 @@ function gridLayout() {
 function changeMode() {
     let body = document.querySelector("body");
     let bgColor = window.getComputedStyle(body).backgroundColor;
+    console.log(window.getComputedStyle(body).backgroundColor);
     let colors = body.style;
     if (bgColor == "rgb(224, 224, 224)") {
         colors.setProperty("--bgc", "rgb(32, 44, 55)");

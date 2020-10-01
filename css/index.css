@@ -155,7 +155,7 @@ form {
     }
 }
 
-@media (prefers-color-scheme: light) and (prefers-color-scheme: no-preference) {
+@media (prefers-color-scheme: light), (prefers-color-scheme: no-preference) {
     body {
         --ebg: hsl(0, 0%, 100%);
         --lc: hsl(200, 15%, 8%);
