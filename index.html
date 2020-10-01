@@ -9,7 +9,7 @@
         />
         <link rel="icon" href="favicon/icon.ico" type="favicon" />
         <link rel="stylesheet" href="css/index.css" />
-        <title>Country App</title>
+        <title>Countries App</title>
     </head>
     <body>
         <header>
@@ -33,7 +33,11 @@
                     alt="Search"
                 />
             </form>
-            <select name="region" id="region"></select>
+            <select aria-label="Filter input">
+                <option value="">All</option>
+                <optgroup label="Region" id="region"></optgroup>
+                <optgroup label="Sub Region" id="subregion"></optgroup>
+            </select>
         </section>
         <section id="main-content">
             <div id="container"></div>

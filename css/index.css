@@ -50,7 +50,7 @@ section {
 
 #section-form {
     margin: auto;
-    max-width: 600px;
+    max-width: 700px;
     width: 90%;
 }
 
@@ -58,9 +58,9 @@ form {
     background: var(--ebg);
     border-radius: 20px;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
-    max-width: 600px;
+    max-width: 800px;
     width: 90%;
-    margin: 10px 10px;
+    margin: auto;
     padding: 5px 0px;
 }
 
@@ -84,10 +84,10 @@ form {
 select {
     background: var(--ebg);
     color: var(--lc);
-    width: 100px;
+    width: 200px;
     padding: 5px;
     border-radius: 5px;
-    margin: auto;
+    margin: auto 10px;
     border: none;
     outline: none;
 }
@@ -212,5 +212,9 @@ select:hover {
 @media(max-width:785px) {
     #section-form {
         flex-direction: column;
+    }
+
+    select {
+        margin-top: 15px;
     }
 }

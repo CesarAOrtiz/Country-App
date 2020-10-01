@@ -23,7 +23,7 @@ async function callAPI() {
         gridLayout();
         countries = data;
         components = document.querySelectorAll(".block");
-        setRegions();
+        getRegions();
     } catch (error) {
         console.log(error);
     }
@@ -39,7 +39,7 @@ async function show(object) {
             <li>${element.name}</li>
             <li>Capital: ${element.capital}</li>
             <li>Region: ${element.region}</li>
-            <li>Population: ${element.population}</li>
+            <li>Population: ${element.population.toLocaleString("es-MX")}</li>
         </ul>
     </div>`;
     });
@@ -86,28 +86,40 @@ function search(e) {
             object.style.display = "none";
         }
     });
+
+    document.querySelector("select").selectedIndex = 0;
 }
 
-function setRegions() {
+function getRegions() {
     let regions = [...new Set(countries.map((element) => element.region))];
+    let subregions = [
+        ...new Set(countries.map((element) => element.subregion)),
+    ];
 
-    html = "<option value=''>All</option>";
-    regions.forEach((element) => {
-        if (element) {
-            html += `
-            <option value="${element}" >${element}</option>`;
-        }
-    });
-    document.querySelector("select").innerHTML = html;
+    setRegion(regions, "region");
+    setRegion(subregions, "subregion");
 
     document
         .querySelector("select")
         .addEventListener("change", filterRegion, false);
+
+    function setRegion(regions, optgroup) {
+        let html = "";
+        regions.forEach((element) => {
+            if (element) {
+                html += `
+                <option value="${element}" >${element}</option>`;
+            }
+        });
+        document.getElementById(optgroup).innerHTML = html;
+    }
 }
 
 function filterRegion(e) {
     let option = e.target.options[e.target.selectedIndex].value;
-    let coincidense = countries.filter((obj) => obj.region.includes(option));
+    let coincidense = countries.filter(
+        (obj) => obj.region.includes(option) || obj.subregion.includes(option)
+    );
     let results = coincidense.map((obj) => obj.name);
 
     components.forEach((object) => {
