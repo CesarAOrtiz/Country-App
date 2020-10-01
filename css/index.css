@@ -12,6 +12,7 @@ body {
     --bgc: hsl(0, 0%, 88%);*/
     color: var(--lc);
     background-color: var(--bgc);
+    margin-top: 20px;
     padding: 50px 0px;
     font-family: sans-serif;
 }
@@ -40,10 +41,17 @@ header {
 
 form,
 #main-content,
-.block ul {
+.block ul,
+section {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#section-form {
+    margin: auto;
+    max-width: 600px;
+    width: 90%;
 }
 
 form {
@@ -51,8 +59,8 @@ form {
     border-radius: 20px;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
     max-width: 600px;
-    width: 80%;
-    margin: 10px auto;
+    width: 90%;
+    margin: 10px 10px;
     padding: 5px 0px;
 }
 
@@ -70,6 +78,21 @@ form {
 }
 
 #search:hover {
+    cursor: pointer;
+}
+
+select {
+    background: var(--ebg);
+    color: var(--lc);
+    width: 100px;
+    padding: 5px;
+    border-radius: 5px;
+    margin: auto;
+    border: none;
+    outline: none;
+}
+
+select:hover {
     cursor: pointer;
 }
 
@@ -153,9 +176,15 @@ form {
     #search-field {
         color: var(--lc);
     }
+
+    select {
+        background: var(--ebg);
+        color: var(--lc);
+    }
 }
 
-@media (prefers-color-scheme: light), (prefers-color-scheme: no-preference) {
+@media (prefers-color-scheme: light),
+(prefers-color-scheme: no-preference) {
     body {
         --ebg: hsl(0, 0%, 100%);
         --lc: hsl(200, 15%, 8%);
@@ -172,5 +201,16 @@ form {
 
     #search-field {
         color: var(--lc);
+    }
+
+    select {
+        background: var(--ebg);
+        color: var(--lc);
+    }
+}
+
+@media(max-width:785px) {
+    #section-form {
+        flex-direction: column;
     }
 }

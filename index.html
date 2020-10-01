@@ -16,34 +16,27 @@
             <p id="logo">Countries</p>
             <p id="mode" onclick="changeMode()">Dark Mode</p>
         </header>
-        <form>
-            <input
-                id="search-field"
-                type="text"
-                placeholder="Search"
-                aria-label="Search field"
-                onchange=""
-            />
-            <img
-                id="search"
-                src="icons/lupa.png"
-                width="20px"
-                height="20px"
-                alt="Search"
-            />
-        </form>
+        <section id="section-form">
+            <form>
+                <input
+                    id="search-field"
+                    type="text"
+                    placeholder="Search"
+                    aria-label="Search field"
+                    onchange=""
+                />
+                <img
+                    id="search"
+                    src="icons/lupa.png"
+                    width="20px"
+                    height="20px"
+                    alt="Search"
+                />
+            </form>
+            <select name="region" id="region"></select>
+        </section>
         <section id="main-content">
-            <div id="container">
-                <div class="block" style="opacity: 0">
-                    <div></div>
-                    <ul>
-                        <li>Country</li>
-                        <li>Population:</li>
-                        <li>Capital:</li>
-                        <li>Region:</li>
-                    </ul>
-                </div>
-            </div>
+            <div id="container"></div>
         </section>
         <script src="js/index.js"></script>
     </body>

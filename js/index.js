@@ -4,10 +4,10 @@ window.addEventListener(
         callAPI();
         document
             .querySelector("form")
-            .addEventListener("submit", showSearch, false);
+            .addEventListener("submit", search, false);
         document
             .querySelector("#search")
-            .addEventListener("click", showSearch, false);
+            .addEventListener("click", search, false);
     },
     false
 );
@@ -23,6 +23,7 @@ async function callAPI() {
         gridLayout();
         countries = data;
         components = document.querySelectorAll(".block");
+        setRegions();
     } catch (error) {
         console.log(error);
     }
@@ -46,39 +47,38 @@ async function show(object) {
 }
 
 function gridLayout() {
-    let sec = document.querySelector("#main-content");
+    let section = document.querySelector("#main-content");
     let grid = document.querySelector("#container");
     let cell = document.querySelector(".block");
     let cellMargin = parseInt(window.getComputedStyle(cell).margin);
-    let num = parseInt(
-        sec.clientWidth / ((cell.offsetWidth || 220) + cellMargin)
+    let space = parseInt(
+        section.clientWidth / ((cell.offsetWidth || 220) + cellMargin)
     );
-    grid.style.gridTemplateColumns = `repeat(${num}, 1fr)`;
+    grid.style.gridTemplateColumns = `repeat(${space}, 1fr)`;
 }
 
 function changeMode() {
     let body = document.querySelector("body");
     let bgColor = window.getComputedStyle(body).backgroundColor;
-    console.log(window.getComputedStyle(body).backgroundColor);
-    let colors = body.style;
     if (bgColor == "rgb(224, 224, 224)") {
-        colors.setProperty("--bgc", "rgb(32, 44, 55)");
-        colors.setProperty("--ebg", "hsl(209, 23%, 22%)");
-        colors.setProperty("--lc", "hsl(0, 0%, 100%)");
+        body.style.setProperty("--bgc", "rgb(32, 44, 55)");
+        body.style.setProperty("--ebg", "hsl(209, 23%, 22%)");
+        body.style.setProperty("--lc", "hsl(0, 0%, 100%)");
     }
     if (bgColor == "rgb(32, 44, 55)") {
-        colors.setProperty("--bgc", "rgb(224, 224, 224)");
-        colors.setProperty("--ebg", "hsl(0, 0%, 100%)");
-        colors.setProperty("--lc", "hsl(200, 15%, 8%)");
+        body.style.setProperty("--bgc", "rgb(224, 224, 224)");
+        body.style.setProperty("--ebg", "hsl(0, 0%, 100%)");
+        body.style.setProperty("--lc", "hsl(200, 15%, 8%)");
     }
 }
 
-function showSearch(e) {
+function search(e) {
     e.preventDefault();
     let search = document
         .querySelector("#search-field")
         .value.toLowerCase()
         .trim();
+
     components.forEach((object) => {
         if (object.id.toLowerCase().includes(search)) {
             object.style.display = "block";
@@ -86,5 +86,35 @@ function showSearch(e) {
             object.style.display = "none";
         }
     });
-    gridLayout();
+}
+
+function setRegions() {
+    let regions = [...new Set(countries.map((element) => element.region))];
+
+    html = "<option value=''>All</option>";
+    regions.forEach((element) => {
+        if (element) {
+            html += `
+            <option value="${element}" >${element}</option>`;
+        }
+    });
+    document.querySelector("select").innerHTML = html;
+
+    document
+        .querySelector("select")
+        .addEventListener("change", filterRegion, false);
+}
+
+function filterRegion(e) {
+    let option = e.target.options[e.target.selectedIndex].value;
+    let coincidense = countries.filter((obj) => obj.region.includes(option));
+    let results = coincidense.map((obj) => obj.name);
+
+    components.forEach((object) => {
+        if (results.includes(object.id)) {
+            object.style.display = "block";
+        } else {
+            object.style.display = "none";
+        }
+    });
 }
