@@ -33,7 +33,7 @@ async function show(object) {
     html = "";
     object.forEach((element) => {
         html += `
-    <div id="${element.name}" class="block">
+    <div id="${element.name}" class="block" onclick="showDetails(this)">
         <div><img src="${element.flag}" alt="Flag"></div>
         <ul>
             <li>${element.name}</li>
@@ -86,8 +86,6 @@ function search(e) {
             object.style.display = "none";
         }
     });
-
-    document.querySelector("select").selectedIndex = 0;
 }
 
 function getRegions() {
@@ -108,7 +106,7 @@ function getRegions() {
         regions.forEach((element) => {
             if (element) {
                 html += `
-                <option value="${element}" >${element}</option>`;
+                <option value="${element}">${element}</option>`;
             }
         });
         document.getElementById(optgroup).innerHTML = html;
@@ -129,4 +127,44 @@ function filterRegion(e) {
             object.style.display = "none";
         }
     });
+}
+
+function showDetails(country) {
+    let select = countries.filter((obj) => obj.name == country.id);
+    let element = select[0];
+    html = `
+    <div id="back" onclick="back()">Back</div>
+    <div id="flex-details">
+        <div id="img"><img src="${element.flag}" alt="Flag"></div>
+        <div id="data">
+            <p>${element.name}</p>
+            <ul>
+                <li><span>Capital:</span> ${element.capital}</li>
+                <li><span>Region:</span> ${element.region}</li>
+                <li><span>Sub Region:</span> ${element.subregion}</li>
+            </ul>
+            <ul>
+                <li><span>Currencies:</span> ${[
+                    ...element.currencies.map((cur) => cur.name),
+                ]}</li>
+                <li><span>Population:</span> ${element.population.toLocaleString(
+                    "es-MX"
+                )}</li>
+                <li><span>Language:</span> ${[
+                    ...element.languages.map((lan) => lan.name),
+                ]}</li>
+                <li><span>Borders:</span> ${[...element.borders]}</li>
+            </ul>
+        </div>
+    </div>`;
+    document.querySelector("#details").innerHTML = html;
+    document.querySelector("#section-form").style.display = "none";
+    document.querySelector("#container").style.display = "none";
+    document.querySelector("#detail-content").style.display = "block";
+}
+
+function back() {
+    document.querySelector("#detail-content").style.display = "none";
+    document.querySelector("#section-form").style.display = "flex";
+    document.querySelector("#container").style.display = "grid";
 }
