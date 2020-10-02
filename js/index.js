@@ -136,35 +136,38 @@ function showDetails(country) {
     <div id="back" onclick="back()">Back</div>
     <div id="flex-details">
         <div id="img"><img src="${element.flag}" alt="Flag"></div>
-        <div id="data">
+        <div id="container-data">
             <p>${element.name}</p>
-            <ul>
-                <li><span>Capital:</span> ${element.capital}</li>
-                <li><span>Region:</span> ${element.region}</li>
-                <li><span>Sub Region:</span> ${element.subregion}</li>
-            </ul>
-            <ul>
-                <li><span>Currencies:</span> ${[
-                    ...element.currencies.map((cur) => cur.name),
-                ]}</li>
-                <li><span>Population:</span> ${element.population.toLocaleString(
-                    "es-MX"
-                )}</li>
-                <li><span>Language:</span> ${[
-                    ...element.languages.map((lan) => lan.name),
-                ]}</li>
-                <li><span>Borders:</span> ${[...element.borders]}</li>
-            </ul>
+            <div id="data">
+                <ul>
+                    <li><span>Capital:</span> ${element.capital}</li>
+                    <li><span>Region:</span> ${element.region}</li>
+                    <li><span>Sub Region:</span> ${element.subregion}</li>
+                </ul>
+                <ul>
+                    <li><span>Currencies:</span> ${[
+                        ...element.currencies.map((cur) => cur.name),
+                    ]}</li>
+                    <li><span>Population:</span> ${element.population.toLocaleString(
+                        "es-MX"
+                    )}</li>
+                    <li><span>Language:</span> ${[
+                        ...element.languages.map((lan) => lan.name),
+                    ]}</li>
+                </ul>
+            </div>
         </div>
     </div>`;
+    //<li><span>Borders:</span> ${[...element.borders]}</li>
     document.querySelector("#details").innerHTML = html;
     document.querySelector("#section-form").style.display = "none";
-    document.querySelector("#container").style.display = "none";
+    document.querySelector("#main-content").style.display = "none";
     document.querySelector("#detail-content").style.display = "block";
 }
 
 function back() {
     document.querySelector("#detail-content").style.display = "none";
     document.querySelector("#section-form").style.display = "flex";
-    document.querySelector("#container").style.display = "grid";
+    document.querySelector("#main-content").style.display = "flex";
+    gridLayout();
 }

@@ -15,8 +15,7 @@ header,
 form,
 .block ul,
 section,
-#flex-details,
-#details ul {
+#flex-details {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -134,7 +133,6 @@ select:hover {
 }
 
 @supports (object-fit: cover) {
-
     .block div img,
     #details div img {
         height: 100%;
@@ -185,8 +183,7 @@ select:hover {
     }
 }
 
-@media (prefers-color-scheme: light),
-(prefers-color-scheme: no-preference) {
+@media (prefers-color-scheme: light), (prefers-color-scheme: no-preference) {
     body {
         --ebg: hsl(0, 0%, 100%);
         --lc: hsl(200, 15%, 8%);
@@ -216,7 +213,6 @@ select:hover {
 #back {
     background-color: var(--ebg);
     padding: 10px 0;
-    margin-bottom: 10px;
     width: 100px;
     text-align: center;
     border-radius: 5px;
@@ -231,7 +227,7 @@ select:hover {
 
 #flex-details {
     margin-top: 20px;
-    align-items: flex-end;
+    align-items: flex-start;
 }
 
 #img {
@@ -245,54 +241,79 @@ select:hover {
 #details div img {
     width: 100%;
     height: auto;
-    box-shadow: 0px 25px 15px -10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 20px 15px -10px rgba(0, 0, 0, 0.3);
+}
+
+#container-data {
+    margin: auto;
+}
+
+#container-data p {
+    font-weight: 800;
+    font-size: 26px;
+    margin: 10px 5px;
+    padding: 0px 10px;
 }
 
 #data {
     margin: auto;
     font-size: 16px;
+    display: flex;
+    align-items: flex-start;
 }
 
-#data p {
-    font-weight: 800;
-    font-size: 26px;
-    margin: 10px 0px;
-    padding: 0px 10px;
-}
-
-#details ul {
+#data ul {
     flex-direction: column;
     align-items: flex-start;
-    margin: auto;
     padding: 0px 10px;
 }
 
-#details ul li {
+#data li {
     list-style: none;
     margin: 5px;
-    font-weight: 300;
-    max-width: 400px;
 }
 
-#details ul li span {
+#data ul li span {
     font-weight: 600;
 }
 
-@media(max-width:835px) {
+@media (max-width: 1110px) {
+    #data {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 835px) {
     #flex-details {
         flex-direction: column;
     }
 
-    #details ul li {
-        max-width: 200px;
+    #container-data {
+        width: 100%;
+        margin: auto;
+        max-width: 486px;
+        max-height: 324px;
     }
 
-    #data p {
-        text-align: center;
+    #container-data p {
+        margin: 10px 0px;
+        padding: 0px;
+    }
+
+    #data ul {
+        padding: 0px 0px;
+    }
+
+    #data ul li {
+        margin: 5px 0px;
+    }
+
+    #details div img {
+        max-height: 324px;
     }
 }
 
-@media(max-width:785px) {
+@media (max-width: 785px) {
     #section-form {
         flex-direction: column;
     }
