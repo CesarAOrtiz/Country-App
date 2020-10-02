@@ -38,7 +38,8 @@ header {
     font-size: 1.5em;
 }
 
-#mode:hover {
+#mode:hover,
+#search:hover {
     cursor: pointer;
 }
 
@@ -70,10 +71,6 @@ form {
 
 #search-field::placeholder {
     color: hsl(0, 0%, 55%);
-}
-
-#search:hover {
-    cursor: pointer;
 }
 
 select {
@@ -133,6 +130,7 @@ select:hover {
 }
 
 @supports (object-fit: cover) {
+
     .block div img,
     #details div img {
         height: 100%;
@@ -183,7 +181,8 @@ select:hover {
     }
 }
 
-@media (prefers-color-scheme: light), (prefers-color-scheme: no-preference) {
+@media (prefers-color-scheme: light),
+(prefers-color-scheme: no-preference) {
     body {
         --ebg: hsl(0, 0%, 100%);
         --lc: hsl(200, 15%, 8%);
@@ -220,7 +219,8 @@ select:hover {
     transition: all 0.25s ease-out;
 }
 
-#back:hover {
+#back:hover,
+#borders li span:hover {
     background-color: rgb(139, 139, 138);
     cursor: pointer;
 }
@@ -248,7 +248,8 @@ select:hover {
     margin: auto;
 }
 
-#container-data p {
+#container-data p,
+#borders li {
     font-weight: 800;
     font-size: 26px;
     margin: 10px 5px;
@@ -273,8 +274,24 @@ select:hover {
     margin: 5px;
 }
 
-#data ul li span {
+#data ul li span,
+#borders li {
     font-weight: 600;
+    font-size: 16px;
+}
+
+#borders {
+    display: flex;
+    list-style: none;
+}
+
+#borders li span {
+    background-color: var(--ebg);
+    display: inline-block;
+    padding: 5px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    margin: 0px 10px 5px 0px;
 }
 
 @media (max-width: 1110px) {
@@ -295,9 +312,14 @@ select:hover {
         max-height: 324px;
     }
 
-    #container-data p {
+    #container-data p,
+    #borders li {
         margin: 10px 0px;
         padding: 0px;
+    }
+
+    #borders li span {
+        margin: 0px 10px 5px 0px;
     }
 
     #data ul {

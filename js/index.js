@@ -11,9 +11,12 @@ window.addEventListener(
     },
     false
 );
+
 window.onresize = gridLayout;
+
 var countries;
 var components;
+var position;
 
 async function callAPI() {
     try {
@@ -129,13 +132,37 @@ function filterRegion(e) {
     });
 }
 
-function showDetails(country) {
+function showDetails(country, scroll = true) {
     let select = countries.filter((obj) => obj.name == country.id);
     let element = select[0];
-    html = `
+
+    let border = countries.filter((obj) =>
+        element.borders.includes(obj.alpha3Code)
+    );
+    let borderName = border.map((obj) => obj.name);
+    let borders = "";
+    borderName.forEach(
+        (obj) =>
+            (borders += `<span onclick="showDetails(this, false)" id="${obj}">${obj}</span>`)
+    );
+
+    createDetails(element, borders);
+
+    if (scroll) {
+        position = window.scrollY;
+    }
+    window.scroll(0, 0);
+    document.querySelector("#section-form").style.display = "none";
+    document.querySelector("#main-content").style.display = "none";
+    document.querySelector("#detail-content").style.display = "block";
+
+    function createDetails(element, borders) {
+        document.querySelector("#details").innerHTML = `
     <div id="back" onclick="back()">Back</div>
     <div id="flex-details">
-        <div id="img"><img src="${element.flag}" alt="Flag"></div>
+        <div id="img"><img src="${element.flag}" alt="Flag of ${
+            element.name
+        }"></div>
         <div id="container-data">
             <p>${element.name}</p>
             <div id="data">
@@ -156,18 +183,17 @@ function showDetails(country) {
                     ]}</li>
                 </ul>
             </div>
+            <ul id="borders">
+                <li>Borders: ${borders}</li>
+            </ul>
         </div>
     </div>`;
-    //<li><span>Borders:</span> ${[...element.borders]}</li>
-    document.querySelector("#details").innerHTML = html;
-    document.querySelector("#section-form").style.display = "none";
-    document.querySelector("#main-content").style.display = "none";
-    document.querySelector("#detail-content").style.display = "block";
+    }
 }
 
 function back() {
     document.querySelector("#detail-content").style.display = "none";
     document.querySelector("#section-form").style.display = "flex";
     document.querySelector("#main-content").style.display = "flex";
-    gridLayout();
+    window.scroll(0, position);
 }
