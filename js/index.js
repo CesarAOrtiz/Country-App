@@ -73,7 +73,7 @@ function changeMode() {
         body.style.setProperty("--bgc", "rgb(224, 224, 224)");
         body.style.setProperty("--ebg", "hsl(0, 0%, 100%)");
         body.style.setProperty("--lc", "hsl(200, 15%, 8%)");
-        body.style.setProperty("--fbg", "rgb(243, 243, 243)");
+        body.style.setProperty("--fbg", "rgb(240, 240, 240)");
     }
 }
 
