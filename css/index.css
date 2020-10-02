@@ -47,6 +47,8 @@ header {
     margin: auto auto 15px auto;
     max-width: 700px;
     width: 90%;
+    position: sticky;
+    top: 30px;
 }
 
 form {
@@ -164,15 +166,19 @@ select:hover {
         --ebg: hsl(209, 23%, 22%);
         --lc: hsl(0, 0%, 100%);
         --bgc: rgb(32, 44, 55);
+        --fbg: hsl(208, 11%, 26%);
         background: var(--bgc);
         color: var(--lc);
     }
 
     header,
-    .block ul,
+    .block ul {
+        background-color: var(--ebg);
+    }
+
     form,
     select {
-        background-color: var(--ebg);
+        background: var(--fbg);
     }
 
     #search-field,
@@ -187,15 +193,19 @@ select:hover {
         --ebg: hsl(0, 0%, 100%);
         --lc: hsl(200, 15%, 8%);
         --bgc: rgb(224, 224, 224);
+        --fbg: rgb(243, 243, 243);
         color: var(--lc);
         background-color: var(--bgc);
     }
 
     header,
-    .block ul,
+    .block ul {
+        background-color: var(--ebg);
+    }
+
     form,
     select {
-        background-color: var(--ebg);
+        background-color: var(--fbg);
     }
 
     #search-field,
@@ -206,7 +216,7 @@ select:hover {
 
 #detail-content {
     width: 90%;
-    margin: 20px auto;
+    margin: 0px auto;
 }
 
 #back {
@@ -269,15 +279,17 @@ select:hover {
     padding: 0px 10px;
 }
 
-#data li {
+#data ul li {
     list-style: none;
     margin: 5px;
+    max-width: 400px;
 }
 
 #data ul li span,
 #borders li {
     font-weight: 600;
     font-size: 16px;
+    max-width: 500px;
 }
 
 #borders {
@@ -300,7 +312,7 @@ select:hover {
     }
 }
 
-@media (max-width: 835px) {
+@media (max-width: 935px) {
     #flex-details {
         flex-direction: column;
     }
