@@ -15,8 +15,8 @@ async function callAPI() {
         const data = await response.json();
         await show(data);
         gridLayout();
-        getRegions();
         countries = data;
+        getRegions();
         components = document.querySelectorAll(".block");
         document
             .querySelector("form")
