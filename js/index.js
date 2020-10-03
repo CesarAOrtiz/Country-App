@@ -53,7 +53,9 @@ async function showComponents(object) {
         <div id="${
             element.name
         }" class="block" onclick="showDetails(this, true)" ${dataset}>
-            <div><img src="${element.flag}" alt="Flag"></div>
+            <div>
+                <img src="${element.flag}" alt="Flag">
+            </div>
             <ul>
                 <li>${element.name}</li>
                 <li>Capital: ${element.capital}</li>
@@ -139,6 +141,7 @@ function changeMode() {
 
 function search(e) {
     e.preventDefault();
+
     let search = document
         .querySelector("#search-field")
         .value.toLowerCase()
