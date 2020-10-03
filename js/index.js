@@ -1,16 +1,4 @@
-window.addEventListener(
-    "load",
-    () => {
-        callAPI();
-        document
-            .querySelector("form")
-            .addEventListener("submit", search, false);
-        document
-            .querySelector("#search")
-            .addEventListener("click", search, false);
-    },
-    false
-);
+window.addEventListener("load", callAPI, false);
 
 window.onresize = gridLayout;
 
@@ -27,22 +15,27 @@ async function callAPI() {
         countries = data;
         components = document.querySelectorAll(".block");
         getRegions();
+        document
+            .querySelector("form")
+            .addEventListener("submit", search, false);
+        document
+            .querySelector("#search")
+            .addEventListener("click", search, false);
     } catch (error) {
         console.log(error);
     }
 }
 
 async function show(object) {
-    html = "";
-    object.forEach((element) => {
-        html += createComponents(element);
-    });
-    document.querySelector("#container").innerHTML = html;
+    html = object.map((element) => createComponents(element)).join("");
+    document.getElementById("container").innerHTML = html;
 
     function createComponents(element) {
         html = `
         <div id="${element.name}" class="block" onclick="showDetails(this)">
-            <div><img src="${element.flag}" alt="Flag"></div>
+            <div><img width=220px height=150px src="${
+                element.flag
+            }" alt="Flag"></div>
             <ul>
                 <li>${element.name}</li>
                 <li>Capital: ${element.capital}</li>
@@ -56,9 +49,34 @@ async function show(object) {
     }
 }
 
+function getRegions() {
+    let regions = [...new Set(countries.map((element) => element.region))];
+    let subregions = [
+        ...new Set(countries.map((element) => element.subregion)),
+    ];
+
+    setRegion(regions, "region");
+    setRegion(subregions, "subregion");
+
+    document
+        .querySelector("select")
+        .addEventListener("change", filterRegion, false);
+
+    function setRegion(regions, optgroup) {
+        let html = regions
+            .map((element) => {
+                if (element) {
+                    return `<option value="${element}">${element}</option>`;
+                }
+            })
+            .join("");
+        document.getElementById(optgroup).innerHTML = html;
+    }
+}
+
 function gridLayout() {
-    let section = document.querySelector("#main-content");
-    let grid = document.querySelector("#container");
+    let section = document.getElementById("main-content");
+    let grid = document.getElementById("container");
     let cell = document.querySelector(".block");
     let cellMargin = parseInt(window.getComputedStyle(cell).margin);
     let space = parseInt(
@@ -99,31 +117,6 @@ function search(e) {
         }
     });
     window.scroll(0, 0);
-}
-
-function getRegions() {
-    let regions = [...new Set(countries.map((element) => element.region))];
-    let subregions = [
-        ...new Set(countries.map((element) => element.subregion)),
-    ];
-
-    setRegion(regions, "region");
-    setRegion(subregions, "subregion");
-
-    document
-        .querySelector("select")
-        .addEventListener("change", filterRegion, false);
-
-    function setRegion(regions, optgroup) {
-        let html = "";
-        regions.forEach((element) => {
-            if (element) {
-                html += `
-                <option value="${element}">${element}</option>`;
-            }
-        });
-        document.getElementById(optgroup).innerHTML = html;
-    }
 }
 
 function filterRegion(e) {
