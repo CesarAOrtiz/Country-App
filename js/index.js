@@ -10,13 +10,14 @@ async function callAPI() {
     try {
         const response = await fetch("https://restcountries.eu/rest/v2/all", {
             cache: "default",
+            expires: "1",
         });
         const data = await response.json();
         await show(data);
         gridLayout();
+        getRegions();
         countries = data;
         components = document.querySelectorAll(".block");
-        getRegions();
         document
             .querySelector("form")
             .addEventListener("submit", search, false);
