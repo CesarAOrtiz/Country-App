@@ -35,18 +35,25 @@ async function callAPI() {
 async function show(object) {
     html = "";
     object.forEach((element) => {
-        html += `
-    <div id="${element.name}" class="block" onclick="showDetails(this)">
-        <div><img src="${element.flag}" alt="Flag"></div>
-        <ul>
-            <li>${element.name}</li>
-            <li>Capital: ${element.capital}</li>
-            <li>Region: ${element.region}</li>
-            <li>Population: ${element.population.toLocaleString("es-MX")}</li>
-        </ul>
-    </div>`;
+        html += createComponents(element);
     });
     document.querySelector("#container").innerHTML = html;
+
+    function createComponents(element) {
+        html = `
+        <div id="${element.name}" class="block" onclick="showDetails(this)">
+            <div><img src="${element.flag}" alt="Flag"></div>
+            <ul>
+                <li>${element.name}</li>
+                <li>Capital: ${element.capital}</li>
+                <li>Region: ${element.region}</li>
+                <li>Population: ${element.population.toLocaleString(
+                    "es-MX"
+                )}</li>
+            </ul>
+        </div>`;
+        return html;
+    }
 }
 
 function gridLayout() {
