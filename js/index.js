@@ -8,7 +8,9 @@ var position;
 
 async function callAPI() {
     try {
-        const response = await fetch("https://restcountries.eu/rest/v2/all");
+        const response = await fetch("https://restcountries.eu/rest/v2/all", {
+            cache: "default",
+        });
         const data = await response.json();
         await show(data);
         gridLayout();
@@ -49,7 +51,7 @@ async function show(object) {
     }
 }
 
-function getRegions() {
+async function getRegions() {
     let regions = [...new Set(countries.map((element) => element.region))];
     let subregions = [
         ...new Set(countries.map((element) => element.subregion)),
@@ -74,7 +76,7 @@ function getRegions() {
     }
 }
 
-function gridLayout() {
+async function gridLayout() {
     let section = document.getElementById("main-content");
     let grid = document.getElementById("container");
     let cell = document.querySelector(".block");
