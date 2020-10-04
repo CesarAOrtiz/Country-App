@@ -1,12 +1,12 @@
 window.onload = async () => {
     await callAPI();
     gridLayout();
-    components = document.querySelectorAll(".block");
+    components = Array.from(document.querySelectorAll(".block"));
+    window.addEventListener("resize", gridLayout, false);
     document.querySelector("#mode").addEventListener("click", mode, false);
     document.querySelector("#form").addEventListener("submit", search, false);
     document.querySelector("#search").addEventListener("click", search, false);
     document.querySelector("#select").addEventListener("change", filter, false);
-    window.addEventListener("resize", gridLayout, false);
 };
 
 var components;
@@ -90,13 +90,11 @@ async function showRegions(data) {
         let regions = region.concat(subregion).sort();
 
         let html = `<option value="">All</option>`;
-        html += regions
-            .map((element) => {
-                if (element) {
-                    return `<option value="${element}">${element}</option>`;
-                }
-            })
-            .join("");
+        regions.forEach((element) => {
+            if (element) {
+                html += `<option value="${element}">${element}</option>`;
+            }
+        });
 
         return html;
     }
@@ -116,7 +114,7 @@ async function gridLayout() {
 
 async function filter(e) {
     let option = e.target.options[e.target.selectedIndex].value;
-    let coincidense = Array.from(components)
+    let coincidense = components
         .filter(
             (obj) =>
                 obj.dataset.region.includes(option) ||
@@ -134,25 +132,26 @@ async function filter(e) {
 }
 
 async function mode() {
-    let body = document.querySelector("body");
+    let body = document.body;
     let bgColor = window.getComputedStyle(body).backgroundColor;
+    let change = body.style;
     if (bgColor === "rgb(224, 224, 224)") {
-        body.style.setProperty("--bgc", "rgb(32, 44, 55)");
-        body.style.setProperty("--ebg", "hsl(209, 23%, 22%)");
-        body.style.setProperty("--lc", "hsl(0, 0%, 100%)");
-        body.style.setProperty("--fbg", "hsl(208, 11%, 26%)");
+        change.setProperty("--bgc", "rgb(32, 44, 55)");
+        change.setProperty("--ebg", "hsl(209, 23%, 22%)");
+        change.setProperty("--lc", "hsl(0, 0%, 100%)");
+        change.setProperty("--fbg", "hsl(208, 11%, 26%)");
     }
     if (bgColor === "rgb(32, 44, 55)") {
-        body.style.setProperty("--bgc", "rgb(224, 224, 224)");
-        body.style.setProperty("--ebg", "hsl(0, 0%, 100%)");
-        body.style.setProperty("--lc", "hsl(200, 15%, 8%)");
-        body.style.setProperty("--fbg", "rgb(240, 240, 240)");
+        change.setProperty("--bgc", "rgb(224, 224, 224)");
+        change.setProperty("--ebg", "hsl(0, 0%, 100%)");
+        change.setProperty("--lc", "hsl(200, 15%, 8%)");
+        change.setProperty("--fbg", "rgb(240, 240, 240)");
     }
 }
 
 async function search(e) {
     e.preventDefault();
-
+    console.log(e.target);
     let search = document
         .querySelector("#search-field")
         .value.toLowerCase()
@@ -182,7 +181,7 @@ function showDetails(country, scroll = true) {
     document.querySelector("#detail-content").style.display = "block";
 
     function createDetails(country) {
-        let element = Array.from(components).find(
+        let element = components.find(
             (object) => object.dataset.name === country.dataset.name
         ).dataset;
 
