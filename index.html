@@ -16,10 +16,10 @@
     <body>
         <header>
             <p id="logo">Countries</p>
-            <p id="mode" onclick="changeMode()">Dark Mode</p>
+            <p id="mode">Dark Mode</p>
         </header>
         <section id="section-form">
-            <form>
+            <form id="form">
                 <input
                     id="search-field"
                     type="text"
@@ -34,11 +34,7 @@
                     alt="Search boton"
                 />
             </form>
-            <select aria-label="Filter input">
-                <option value="">All</option>
-                <optgroup label="Region" id="region"></optgroup>
-                <optgroup label="Sub Region" id="subregion"></optgroup>
-            </select>
+            <select aria-label="Filter input" id="select"></select>
         </section>
         <section id="main-content">
             <div id="container"></div>
@@ -46,6 +42,6 @@
         <section id="detail-content" style="display: none">
             <div id="details"></div>
         </section>
-        <script async src="js/index.js"></script>
+        <script defer src="js/index.js"></script>
     </body>
 </html>
