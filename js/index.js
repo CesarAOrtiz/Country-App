@@ -66,7 +66,9 @@ async function showComponents(data) {
                         element.name
                     }" class="block" onclick="showDetails(this, true)" ${dataset}>
                         <div>
-                            <img src="${element.flag}" alt="Flag">
+                            <img width=220px hieght=150px src="${
+                                element.flag
+                            }" alt="Flag">
                         </div>
                         <ul>
                             <li>${element.name}</li>
