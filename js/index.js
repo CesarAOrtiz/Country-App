@@ -14,7 +14,10 @@ var position;
 
 async function callAPI() {
     try {
-        const response = await fetch("https://restcountries.eu/rest/v2/all");
+        const response = await fetch("https://restcountries.eu/rest/v2/all", {
+            cache: "default",
+            expires: "1",
+        });
         const data = await response.json();
         await showComponents(data);
         showRegions(data);
@@ -63,7 +66,9 @@ async function showComponents(data) {
                         element.name
                     }" class="block" onclick="showDetails(this, true)" ${dataset}>
                         <div>
-                            <img src="${element.flag}" alt="Flag">
+                            <img width=220px hieght=150px src="${
+                                element.flag
+                            }" alt="Flag">
                         </div>
                         <ul>
                             <li>${element.name}</li>
@@ -151,7 +156,7 @@ async function mode() {
 
 async function search(e) {
     e.preventDefault();
-    console.log(e.target);
+
     let search = document
         .querySelector("#search-field")
         .value.toLowerCase()
@@ -168,8 +173,8 @@ async function search(e) {
     window.scroll(0, 0);
 }
 
-function showDetails(country, scroll = true) {
-    document.querySelector("#details").innerHTML = createDetails(country);
+async function showDetails(country, scroll = true) {
+    document.querySelector("#details").innerHTML = await createDetails(country);
 
     if (scroll) {
         position = window.scrollY;
@@ -180,7 +185,7 @@ function showDetails(country, scroll = true) {
     document.querySelector("#main-content").style.display = "none";
     document.querySelector("#detail-content").style.display = "block";
 
-    function createDetails(country) {
+    async function createDetails(country) {
         let element = components.find(
             (object) => object.dataset.name === country.dataset.name
         ).dataset;
