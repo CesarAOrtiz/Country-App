@@ -36,13 +36,8 @@ async function showComponents(data) {
             .map((element) => {
                 let borders = object
                     .filter((obj) => element.borders.includes(obj.alpha3Code))
-                    .map((obj) => {
-                        if (obj) {
-                            return `<span onclick='showDetails(this, false)' 
-                            data-name=&quot;${obj.name}&quot;>${obj.name}</span>`;
-                        }
-                    })
-                    .join("");
+                    .map((obj) => obj.name)
+                    .join(",");
 
                 let dataset = `
                     data-name="${element.name}" 
@@ -183,6 +178,7 @@ async function showDetails(country, scroll = true) {
 
     document.querySelector("#section-form").style.display = "none";
     document.querySelector("#main-content").style.display = "none";
+    document.querySelector("#container").style.display = "none";
     document.querySelector("#detail-content").style.display = "block";
 
     async function createDetails(country) {
@@ -217,7 +213,15 @@ async function showDetails(country, scroll = true) {
                         </ul>
                     </div>
                     <ul id="borders">
-                        <li>Borders: ${element.borders}</li>
+                        <li>Borders: ${element.borders
+                            .split(",")
+                            .map((borde) => {
+                                if (borde) {
+                                    return `<span onclick='showDetails(this, false)' 
+                            data-name="${borde}">${borde}</span>`;
+                                }
+                            })
+                            .join("")}</li>
                     </ul>
                 </div>
             </div>`;
@@ -226,6 +230,7 @@ async function showDetails(country, scroll = true) {
 
 async function back() {
     document.querySelector("#detail-content").style.display = "none";
+    document.querySelector("#container").style.display = "grid";
     document.querySelector("#section-form").style.display = "flex";
     document.querySelector("#main-content").style.display = "flex";
     window.scroll(0, position);
