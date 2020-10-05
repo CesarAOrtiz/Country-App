@@ -14,10 +14,7 @@ var position;
 
 async function callAPI() {
     try {
-        const response = await fetch("https://restcountries.eu/rest/v2/all", {
-            cache: "default",
-            expires: "1",
-        });
+        const response = await fetch("https://restcountries.eu/rest/v2/all");
         const data = await response.json();
         await showComponents(data);
         showRegions(data);
@@ -178,7 +175,6 @@ async function showDetails(country, scroll = true) {
 
     document.querySelector("#section-form").style.display = "none";
     document.querySelector("#main-content").style.display = "none";
-    document.querySelector("#container").style.display = "none";
     document.querySelector("#detail-content").style.display = "block";
 
     async function createDetails(country) {
@@ -230,7 +226,6 @@ async function showDetails(country, scroll = true) {
 
 async function back() {
     document.querySelector("#detail-content").style.display = "none";
-    document.querySelector("#container").style.display = "grid";
     document.querySelector("#section-form").style.display = "flex";
     document.querySelector("#main-content").style.display = "flex";
     window.scroll(0, position);
