@@ -14,15 +14,6 @@
         <title>Countries App</title>
     </head>
     <body>
-        <template id="template-card">
-            <img />
-            <ul>
-                <li class="name"></li>
-                <li class="capital"></li>
-                <li class="region"></li>
-                <li class="population"></li>
-            </ul>
-        </template>
         <header>
             <p id="logo">Countries</p>
             <p id="mode">Dark Mode</p>
@@ -35,19 +26,9 @@
                     placeholder="Search"
                     aria-label="Search field"
                 />
-                <img
-                    id="search"
-                    src="icons/lupa.png"
-                    width="20px"
-                    height="20px"
-                    alt="Search boton"
-                />
+                <span id="search">&#128269;&#65038;</span>
             </form>
-            <select id="select" aria-label="Filter input">
-                <option value="">All</option>
-                <optgroup label="Region" id="region"></optgroup>
-                <optgroup label="Sub Region" id="subregion"></optgroup>
-            </select>
+            <select id="select" aria-label="Filter input"></select>
         </section>
         <section id="main-content">
             <div id="container"></div>

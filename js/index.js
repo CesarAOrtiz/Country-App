@@ -15,14 +15,11 @@ var position;
 
 async function callAPI() {
     try {
-        const response = await fetch("https://restcountries.eu/rest/v2/all", {
-            cache: "default",
-            expires: "1",
-        });
+        const response = await fetch("https://restcountries.eu/rest/v2/all");
         const data = await response.json();
         await show(data);
         gridLayout();
-        getRegions(data);
+        showRegions(data);
         countries = data;
     } catch (error) {
         console.log(error);
@@ -38,50 +35,52 @@ async function show(object) {
     });
 }
 
-async function getRegions(data) {
-    let regions = [...new Set(data.map((element) => element.region))];
-    let subregions = [...new Set(data.map((element) => element.subregion))];
+async function showRegions(data) {
+    document.querySelector("#select").innerHTML = await creatRegion(data);
 
-    setRegion(regions, "region");
-    setRegion(subregions, "subregion");
+    async function creatRegion(data) {
+        let region = [...new Set(data.map((element) => element.region))];
+        let subregion = [...new Set(data.map((element) => element.subregion))];
+        let regions = region.concat(subregion).sort();
 
-    function setRegion(regions, optgroup) {
-        let html = regions
-            .map((element) => {
-                if (element) {
-                    return `<option value="${element}">${element}</option>`;
-                }
-            })
-            .join("");
-        document.getElementById(optgroup).innerHTML = html;
+        let html = `<option value="">All</option>`;
+        regions.forEach((element) => {
+            if (element) {
+                html += `<option value="${element}">${element}</option>`;
+            }
+        });
+
+        return html;
     }
 }
 
 async function gridLayout() {
-    let section = document.getElementById("main-content");
-    let grid = document.getElementById("container");
+    let section = document.querySelector("#main-content");
+    let grid = document.querySelector("#container");
     let cell = document.querySelector("c-card");
     let cellMargin = parseInt(window.getComputedStyle(cell).margin);
     let space = parseInt(
-        section.clientWidth / ((cell.offsetWidth || 220) + cellMargin)
+        section.clientWidth /
+            (parseInt(window.getComputedStyle(cell).width) + cellMargin)
     );
     grid.style.gridTemplateColumns = `repeat(${space}, 1fr)`;
 }
 
-function mode() {
-    let body = document.querySelector("body");
+async function mode() {
+    let body = document.body;
     let bgColor = window.getComputedStyle(body).backgroundColor;
-    if (bgColor == "rgb(224, 224, 224)") {
-        body.style.setProperty("--bgc", "rgb(32, 44, 55)");
-        body.style.setProperty("--ebg", "hsl(209, 23%, 22%)");
-        body.style.setProperty("--lc", "hsl(0, 0%, 100%)");
-        body.style.setProperty("--fbg", "hsl(208, 11%, 26%)");
+    let change = body.style;
+    if (bgColor === "rgb(224, 224, 224)") {
+        change.setProperty("--bgc", "rgb(32, 44, 55)");
+        change.setProperty("--ebg", "hsl(209, 23%, 22%)");
+        change.setProperty("--lc", "hsl(0, 0%, 100%)");
+        change.setProperty("--fbg", "hsl(208, 11%, 26%)");
     }
-    if (bgColor == "rgb(32, 44, 55)") {
-        body.style.setProperty("--bgc", "rgb(224, 224, 224)");
-        body.style.setProperty("--ebg", "hsl(0, 0%, 100%)");
-        body.style.setProperty("--lc", "hsl(200, 15%, 8%)");
-        body.style.setProperty("--fbg", "rgb(240, 240, 240)");
+    if (bgColor === "rgb(32, 44, 55)") {
+        change.setProperty("--bgc", "rgb(224, 224, 224)");
+        change.setProperty("--ebg", "hsl(0, 0%, 100%)");
+        change.setProperty("--lc", "hsl(200, 15%, 8%)");
+        change.setProperty("--fbg", "rgb(240, 240, 240)");
     }
 }
 
@@ -118,9 +117,8 @@ async function filter(e) {
     });
 }
 
-function showDetails(country, scroll = true) {
-    let select = countries.filter((obj) => obj.name == country.id);
-    let element = select[0];
+async function showDetails(country, scroll = true) {
+    let element = countries.find((obj) => obj.name === country.id);
 
     let border = countries.filter((obj) =>
         element.borders.includes(obj.alpha3Code)
@@ -132,19 +130,23 @@ function showDetails(country, scroll = true) {
             (borders += `<span onclick="showDetails(this, false)" id="${obj}">${obj}</span>`)
     );
 
-    createDetails(element, borders);
+    document.querySelector("#details").innerHTML = await createDetails(
+        element,
+        borders
+    );
 
     if (scroll) {
         position = window.scrollY;
     }
     window.scroll(0, 0);
+
     document.querySelector("#section-form").style.display = "none";
     document.querySelector("#main-content").style.display = "none";
     document.querySelector("#detail-content").style.display = "block";
 
     function createDetails(element, borders) {
-        document.querySelector("#details").innerHTML = `
-    <div id="back" onclick="back()">Back</div>
+        return `
+    <div id="back" onclick="back()">&#x2b05;Back</div>
     <div id="flex-details">
         <div id="img"><img src="${element.flag}" alt="Flag of ${
             element.name
@@ -187,28 +189,26 @@ async function back() {
 
 class Card extends HTMLElement {
     connectedCallback() {
-        let template = document.querySelector("#template-card");
-        let node = document.importNode(template.content, true);
-        this.appendChild(node);
+        this.img = this.appendChild(document.createElement("img"));
+        this.ul = this.appendChild(document.createElement("ul"));
         this.addEventListener("click", () => showDetails(this), false);
     }
 
     createCard(element) {
-        let img = this.querySelector("img");
-        let name = this.querySelector(".name");
-        let capital = this.querySelector(".capital");
-        let region = this.querySelector(".region");
-        let population = this.querySelector(".population");
         this.id = element.name;
-        img.width = "220";
-        img.height = "150";
-        img.src = element.flag;
-        img.alt = `Flag of${element.name}`;
-        name.textContent = element.name;
-        capital.textContent = `Capital: ${element.capital}`;
-        region.textContent = `Region: ${element.region}`;
-        population.textContent = `Population: ${element.population.toLocaleString(
-            "es-MX"
-        )}`;
+        this.img.width = "220";
+        this.img.height = "150";
+        this.img.src = element.flag;
+        this.img.alt = `Flag of${element.name}`;
+        this.addData(element.name);
+        this.addData(element.capital, "Capital:");
+        this.addData(element.region, "Region:");
+        this.addData(element.population.toLocaleString("es-MX"), "Population:");
+    }
+
+    addData(text, label = "") {
+        let li = document.createElement("li");
+        li.textContent = `${label} ${text}`;
+        this.ul.appendChild(li);
     }
 }
