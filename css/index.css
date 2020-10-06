@@ -8,12 +8,12 @@ body {
     margin-top: 20px;
     padding: 50px 0px;
     font-family: sans-serif;
-    transition: all 0.25s ease-out;
+    transition: all 0.25s;
 }
 
 header,
 form,
-.block ul,
+c-card ul,
 section,
 #flex-details {
     display: flex;
@@ -30,7 +30,7 @@ header {
     padding: 10px 5%;
     justify-content: space-between;
     font-weight: 600;
-    transition: all 0.25s ease-out;
+    transition: all 0.25s;
 }
 
 #logo {
@@ -48,7 +48,7 @@ header {
     max-width: 700px;
     width: 90%;
     position: sticky;
-    top: 30px;
+    top: 25px;
 }
 
 form {
@@ -59,7 +59,7 @@ form {
     width: 90%;
     margin: auto;
     padding: 5px 0px;
-    transition: all 0.25s ease-out;
+    transition: all 0.25s;
 }
 
 #search-field {
@@ -75,6 +75,13 @@ form {
     color: hsl(0, 0%, 55%);
 }
 
+#search {
+    display: block;
+    text-align: center;
+    font-size: 20px;
+    height: 30px;
+}
+
 select {
     background: var(--ebg);
     color: var(--lc);
@@ -84,7 +91,7 @@ select {
     margin: auto 10px;
     border: none;
     outline: none;
-    transition: all 0.25s ease-out;
+    transition: all 0.25s;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
 }
 
@@ -101,63 +108,59 @@ select:hover {
     display: grid;
 }
 
-.block {
+c-card {
     width: 220px;
     height: 300px;
     margin: 10px;
     flex-direction: column;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
-    transition: margin 0.25s ease-out;
+    transition: all 0.25s;
+    background: var(--ebg);
 }
 
-.block:hover {
+c-card:hover {
     cursor: pointer;
     margin-top: 2px;
     margin-bottom: 18px;
     box-shadow: 0px 8px 0px 0px rgba(0, 0, 0, 0.3);
 }
 
-.block div {
-    width: 100%;
-    height: 150px;
-    margin: 0px;
-    border-radius: 10px 10px 0px 0px;
-}
-
-.block div img {
+c-card img {
     border-radius: 10px 10px 0px 0px;
     width: 100%;
-    height: auto;
+    height: 160px;
+    display: block;
 }
 
 @supports (object-fit: cover) {
 
-    .block div img,
+    c-card img,
     #details div img {
-        height: 100%;
+        height: 50%;
         object-fit: cover;
         object-position: center center;
     }
+
+    #details div img {
+        height: 100%;
+    }
 }
 
-.block ul {
+c-card ul {
     width: 100%;
     height: 150px;
-    padding: 0px 5px;
     flex-direction: column;
     align-items: flex-start;
-    background: var(--ebg);
     border-radius: 0px 0px 10px 10px;
-    transition: all 0.25s ease-out;
 }
 
-.block ul li {
-    margin: 5px;
+c-card ul li {
+    margin: 5px 10px;
     list-style: none;
 }
 
-.block ul li:nth-child(1) {
+c-card ul li:nth-child(1) {
     font-weight: 600;
 }
 
@@ -172,7 +175,7 @@ select:hover {
     }
 
     header,
-    .block ul {
+    c-card {
         background-color: var(--ebg);
     }
 
@@ -199,7 +202,7 @@ select:hover {
     }
 
     header,
-    .block ul {
+    c-card {
         background-color: var(--ebg);
     }
 
@@ -226,7 +229,7 @@ select:hover {
     text-align: center;
     border-radius: 5px;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
-    transition: all 0.25s ease-out;
+    transition: all 0.25s;
 }
 
 #back:hover,
@@ -304,7 +307,7 @@ select:hover {
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
     margin: 0px 10px 5px 0px;
-    transition: all 0.25s ease-out;
+    transition: all 0.25s;
 }
 
 @media (max-width: 1110px) {
