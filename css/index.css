@@ -136,13 +136,13 @@ c-card img {
 @supports (object-fit: cover) {
 
     c-card img,
-    #details div img {
+    #flex-details img {
         height: 50%;
         object-fit: cover;
         object-position: center center;
     }
 
-    #details div img {
+    #flex-details img {
         height: 100%;
     }
 }
@@ -243,18 +243,13 @@ c-card ul li:nth-child(1) {
     align-items: flex-start;
 }
 
-#img {
-    width: 100%;
-    height: auto;
-    margin: auto;
-    max-width: 486px;
-    max-height: 324px;
-}
-
-#details div img {
+#flex-details img {
     width: 100%;
     height: auto;
     box-shadow: 0px 20px 15px -10px rgba(0, 0, 0, 0.3);
+    margin: auto;
+    max-width: 486px;
+    max-height: 324px;
 }
 
 #container-data {
@@ -346,7 +341,7 @@ c-card ul li:nth-child(1) {
         margin: 5px 0px;
     }
 
-    #details div img {
+    #flex-details img {
         max-height: 324px;
     }
 }

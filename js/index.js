@@ -130,7 +130,7 @@ async function showDetails(country, scroll = true) {
             (borders += `<span onclick="showDetails(this, false)" id="${obj}">${obj}</span>`)
     );
 
-    document.querySelector("#details").innerHTML = await createDetails(
+    document.querySelector("#detail-content").innerHTML = await createDetails(
         element,
         borders
     );
@@ -148,9 +148,9 @@ async function showDetails(country, scroll = true) {
         return `
     <div id="back" onclick="back()">Back</div>
     <div id="flex-details">
-        <div id="img"><img src="${element.flag}" alt="Flag of ${
+        <img width=486px  height=324px src="${element.flag}" alt="Flag of ${
             element.name
-        }"></div>
+        }">
         <div id="container-data">
             <p>${element.name}</p>
             <div id="data">
