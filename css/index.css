@@ -13,7 +13,7 @@ body {
 
 header,
 form,
-.block ul,
+c-card ul,
 section,
 #flex-details {
     display: flex;
@@ -101,63 +101,59 @@ select:hover {
     display: grid;
 }
 
-.block {
+c-card {
     width: 220px;
     height: 300px;
     margin: 10px;
     flex-direction: column;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
-    transition: margin 0.25s ease-out;
+    transition: all 0.25s ease-out;
+    background: var(--ebg);
 }
 
-.block:hover {
+c-card:hover {
     cursor: pointer;
     margin-top: 2px;
     margin-bottom: 18px;
     box-shadow: 0px 8px 0px 0px rgba(0, 0, 0, 0.3);
 }
 
-.block div {
-    width: 100%;
-    height: 150px;
-    margin: 0px;
-    border-radius: 10px 10px 0px 0px;
-}
-
-.block div img {
+c-card img {
     border-radius: 10px 10px 0px 0px;
     width: 100%;
-    height: auto;
+    height: 160px;
+    display: block;
 }
 
 @supports (object-fit: cover) {
 
-    .block div img,
+    c-card img,
     #details div img {
-        height: 100%;
+        height: 50%;
         object-fit: cover;
         object-position: center center;
     }
+
+    #details div img {
+        height: 100%;
+    }
 }
 
-.block ul {
+c-card ul {
     width: 100%;
     height: 150px;
-    padding: 0px 5px;
     flex-direction: column;
     align-items: flex-start;
-    background: var(--ebg);
     border-radius: 0px 0px 10px 10px;
-    transition: all 0.25s ease-out;
 }
 
-.block ul li {
-    margin: 5px;
+c-card ul li {
+    margin: 5px 10px;
     list-style: none;
 }
 
-.block ul li:nth-child(1) {
+c-card ul li:nth-child(1) {
     font-weight: 600;
 }
 
@@ -172,7 +168,7 @@ select:hover {
     }
 
     header,
-    .block ul {
+    c-card {
         background-color: var(--ebg);
     }
 
@@ -199,7 +195,7 @@ select:hover {
     }
 
     header,
-    .block ul {
+    c-card {
         background-color: var(--ebg);
     }
 
