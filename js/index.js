@@ -146,7 +146,7 @@ async function showDetails(country, scroll = true) {
 
     function createDetails(element, borders) {
         return `
-    <div id="back" onclick="back()">&#x2b05;Back</div>
+    <div id="back" onclick="back()">Back</div>
     <div id="flex-details">
         <div id="img"><img src="${element.flag}" alt="Flag of ${
             element.name
