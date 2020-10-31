@@ -8,7 +8,7 @@ body {
     margin-top: 20px;
     padding: 50px 0px;
     font-family: sans-serif;
-    transition: all 0.25s;
+    transition: all 0.1s;
 }
 
 header,
@@ -29,7 +29,7 @@ header {
     padding: 10px 5%;
     justify-content: space-between;
     font-weight: 600;
-    transition: all 0.25s;
+    transition: all 0.1s;
 }
 
 #logo {
@@ -57,7 +57,7 @@ form {
     width: 90%;
     margin: auto;
     padding: 5px 0px;
-    transition: all 0.25s;
+    transition: all 0.1s;
 }
 
 #search-field {
@@ -111,7 +111,7 @@ form {
     flex-direction: column;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
-    transition: all 0.25s;
+    transition: all 0.1s;
 }
 
 .block:hover {
@@ -156,6 +156,12 @@ form {
 
 .block ul li:nth-child(1) {
     font-weight: 600;
+    font-size: 16px;
+}
+
+.block ul li span {
+    font-weight: bolder;
+    font-size: 15px;
 }
 
 #detail-content {
@@ -166,10 +172,12 @@ form {
 #back {
     padding: 10px 0;
     width: 100px;
+    font-weight: 600;
+    font-size: 16px;
     text-align: center;
     border-radius: 5px;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
-    transition: all 0.25s;
+    transition: all 0.1s;
 }
 
 #back:hover,
@@ -241,7 +249,7 @@ form {
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
     margin: 0px 10px 5px 0px;
-    transition: all 0.25s;
+    transition: all 0.1s;
 }
 
 @media (max-width: 1110px) {
@@ -268,7 +276,7 @@ form {
         padding: 0px;
     }
 
-    #borders li span {
+    .border {
         margin: 0px 10px 5px 0px;
     }
 
@@ -302,7 +310,7 @@ form {
 .dark-theme header,
 .dark-theme .block,
 .dark-theme #back,
-.dark-theme #borders li span {
+.dark-theme .border {
     background: hsl(209, 23%, 22%);
 }
 .dark-theme form,
@@ -322,7 +330,7 @@ form {
 .light-theme header,
 .light-theme .block,
 .light-theme #back,
-.light-theme #borders li span {
+.light-theme .border {
     background: hsl(0, 0%, 100%);
 }
 .light-theme form,

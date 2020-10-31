@@ -1,15 +1,15 @@
 window.onload = async () => {
     getMedia();
-    window.addEventListener("resize", gridLayout, false);
-    document.querySelector("#mode").addEventListener("click", mode, false);
-    document.querySelector("#form").addEventListener("submit", search, false);
-    document.querySelector("#search").addEventListener("click", search, false);
-    document.querySelector("#filter").addEventListener("change", filter, false);
     callAPI();
 };
 
+document.querySelector("#mode").addEventListener("click", toggleMode, false);
+document.querySelector("#form").addEventListener("submit", search, false);
+document.querySelector("#search").addEventListener("click", search, false);
+document.querySelector("#filter").addEventListener("change", filter, false);
+window.addEventListener("resize", gridLayout, false);
+
 var countries;
-var components;
 var position;
 
 function getMedia() {
@@ -21,6 +21,7 @@ function getMedia() {
     } else {
         document.body.classList.add("dark-theme");
     }
+    getMode();
 }
 
 async function callAPI() {
@@ -29,75 +30,48 @@ async function callAPI() {
             "https://restcountries.eu/rest/v2/all?fields=name;capital;currencies;alpha3Code;region;subregion;flag;population;borders;languages"
         );
         const data = await response.json();
-        await showComponents(data);
-        gridLayout();
+        showComponents(data);
         showRegions(data);
+        gridLayout();
         countries = data;
-        components = Array.from(document.querySelectorAll(".block"));
     } catch (error) {
         console.log(error);
     }
 }
 
-async function showComponents(data) {
-    document.querySelector("#container").innerHTML = await createComponents(
-        data
-    );
+function showComponents(data) {
+    document.querySelector("#container").innerHTML = createComponents(data);
 
-    async function createComponents(object) {
+    function createComponents(object) {
         let html = object
-            .map((element) => {
-                let borders = object
-                    .filter((obj) => element.borders.includes(obj.alpha3Code))
-                    .map((obj) => obj.name)
-                    .join(",");
-
-                let dataset = `
-                    data-name="${element.name}" 
-                    data-flag="${element.flag}" 
-                    data-capital="${element.capital}"
-                    data-region="${element.region}" 
-                    data-subregion="${element.subregion}"
-                    data-languages="${[
-                        ...element.languages.map((lan) => lan.name),
-                    ]}" 
-                    data-population="${element.population.toLocaleString(
-                        "es-MX"
-                    )}" 
-                    data-currencies="${[
-                        ...element.currencies.map((cur) => cur.name),
-                    ]}"
-                    data-borders="${borders}"`;
-
-                return `
+            .map(
+                (element) => `
                     <div id="${
                         element.name
-                    }" class="block" onclick="showDetails(this, true)" ${dataset}>
-                        <div>
-                            <img width=220px hieght=150px src="${
-                                element.flag
-                            }" alt="Flag">
-                        </div>
+                    }" class="block" onclick="showDetails(this, true)">
+                        <img width=220px hieght=150px src="${
+                            element.flag
+                        }" alt="Flag">
                         <ul>
-                            <li>${element.name}</li>
-                            <li>Capital: ${element.capital}</li>
-                            <li>Region: ${element.region}</li>
-                            <li>Population: ${element.population.toLocaleString(
+                            <li><span>${element.name}</span></li>
+                            <li><span>Capital:</span> ${element.capital}</li>
+                            <li><span>Region:</span> ${element.region}</li>
+                            <li><span>Population:</span> ${element.population.toLocaleString(
                                 "es-MX"
                             )}</li>
                         </ul>
-                    </div>`;
-            })
+                    </div>`
+            )
             .join("");
 
         return html;
     }
 }
 
-async function showRegions(data) {
-    document.querySelector("#filter").innerHTML = await creatRegion(data);
+function showRegions(data) {
+    document.querySelector("#filter").innerHTML = creatRegion(data);
 
-    async function creatRegion(data) {
+    function creatRegion(data) {
         let region = [...new Set(data.map((element) => element.region))];
         let subregion = [...new Set(data.map((element) => element.subregion))];
         let regions = region.concat(subregion).sort();
@@ -113,7 +87,7 @@ async function showRegions(data) {
     }
 }
 
-async function gridLayout() {
+function gridLayout() {
     let section = document.querySelector("#main-content");
     let grid = document.querySelector("#container");
     let cell = document.querySelector(".block");
@@ -125,14 +99,13 @@ async function gridLayout() {
     grid.style.gridTemplateColumns = `repeat(${space}, 1fr)`;
 }
 
-async function search(e) {
+function search(e) {
     e.preventDefault();
 
-    let search = document
+    const search = document
         .querySelector("#search-field")
         .value.toLowerCase()
         .trim();
-
     const coincidense = countries.filter((object) =>
         object.name.toLowerCase().includes(search)
     );
@@ -141,77 +114,89 @@ async function search(e) {
     window.scroll(0, 0);
 }
 
-async function filter(e) {
-    let option = e.target.options[e.target.selectedIndex].value;
-    let coincidense = countries.filter(
+function filter(e) {
+    const option = e.target.options[e.target.selectedIndex].value;
+    const coincidense = countries.filter(
         (obj) => obj.region.includes(option) || obj.subregion.includes(option)
     );
     showComponents(coincidense);
+
+    window.scroll(0, 0);
 }
 
-async function mode() {
+function toggleMode() {
     document.body.classList.toggle("dark-theme");
     document.body.classList.toggle("light-theme");
+    getMode();
+}
+
+function getMode() {
+    let mode = document.querySelector("#mode");
+    if (document.body.className === "dark-theme") {
+        mode.innerHTML = "Light Mode";
+    } else {
+        mode.innerHTML = "Dark Mode";
+    }
 }
 
 async function showDetails(country, scroll = true) {
+    const element = countries.find((obj) => obj.name === country.id);
+    const borders = countries.filter((obj) =>
+        element.borders.includes(obj.alpha3Code)
+    );
+    let borderNames = "";
+    borders.forEach(
+        (obj) =>
+            (borderNames += `<span onclick="showDetails(this, false)" id="${obj.name}" class="border">${obj.name}</span>`)
+    );
+
     document.querySelector("#detail-content").innerHTML = await createDetails(
-        country
+        element,
+        borderNames
     );
 
     if (scroll) {
         position = window.scrollY;
     }
+
     window.scroll(0, 0);
 
     document.querySelector("#section-form").style.display = "none";
     document.querySelector("#main-content").style.display = "none";
     document.querySelector("#detail-content").style.display = "block";
 
-    async function createDetails(country) {
-        let element = countries.find(
-            (object) => object.name === country.dataset.name
-        );
-        console.log(element);
+    async function createDetails(element, borders) {
         return `
-            <div id="back" onclick="back()">Back</div>
-            <div id="flex-details">
-                <div id="img">
-                    <img src="${element.flag}" alt="Flag of ${element.name}">
-                </div>
-                <div id="container-data">
-                    <p>${element.name}</p>
-                    <div id="data">
-                        <ul>
-                            <li><span>Capital:</span> ${element.capital}</li>
-                            <li><span>Region:</span> ${element.region}</li>
-                            <li><span>Sub Region:</span> ${
-                                element.subregion
-                            }</li>
-                        </ul>
-                        <ul>
-                            <li><span>Language:</span> ${element.languages}</li>
-                            <li><span>Population:</span> ${element.population.toLocaleString(
-                                "es-MX"
-                            )}</li>
-                            <li><span>Currencies:</span> ${
-                                element.currencies
-                            }</li>
-                        </ul>
-                    </div>
-                    <ul id="borders">
-                        <li>Borders: ${element.borders
-                            .split(",")
-                            .map((borde) => {
-                                if (borde) {
-                                    return `<span onclick='showDetails(this, false)' 
-                            data-name="${borde}" class="border">${borde}</span>`;
-                                }
-                            })
-                            .join("")}</li>
-                    </ul>
-                </div>
-            </div>`;
+    <div id="back" onclick="back()">Back</div>
+    <div id="flex-details">
+        <img width=486px  height=324px src="${element.flag}" alt="Flag of ${
+            element.name
+        }">
+        <div id="container-data">
+            <p>${element.name}</p>
+            <div id="data">
+                <ul>
+                    <li><span>Capital:</span> ${element.capital}</li>
+                    <li><span>Region:</span> ${element.region}</li>
+                    <li><span>Sub Region:</span> ${element.subregion}</li>
+                </ul>
+                <ul>
+                    <li><span>Language:</span> ${[
+                        ...element.languages.map((lan) => lan.name),
+                    ]}</li>
+                    <li><span>Population:</span> ${element.population.toLocaleString(
+                        "es-MX"
+                    )}</li>
+                    <li><span>Currencies:</span> ${[
+                        ...element.currencies.map((cur) => cur.name),
+                    ]}</li>
+                </ul>
+            </div>
+            <ul id="borders">
+                <li>Borders: ${borders}</li>
+            </ul>
+        </div>
+    </div>`;
     }
 }
 
