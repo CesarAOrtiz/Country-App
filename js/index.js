@@ -33,9 +33,12 @@ function getMode() {
     }
 }
 
-async function toggleMode() {
-    document.body.classList.toggle("dark-theme");
-    document.body.classList.toggle("light-theme");
+function toggleMode() {
+    if (document.body.className === "dark-theme") {
+        document.body.className = "light-theme";
+    } else {
+        document.body.className = "dark-theme";
+    }
     getMode();
 }
 
@@ -47,7 +50,6 @@ async function callAPI() {
         const data = await response.json();
         showCards(data);
         showRegions(data);
-        gridLayout();
         countries = data;
     } catch (error) {
         console.log(error);
@@ -56,6 +58,7 @@ async function callAPI() {
 
 function showCards(data) {
     document.querySelector("#container").innerHTML = createCards(data);
+    gridLayout();
 
     function createCards(object) {
         let html = object
@@ -87,9 +90,11 @@ function showRegions(data) {
     document.querySelector("#filter").innerHTML = creatRegion(data);
 
     function creatRegion(data) {
-        let region = [...new Set(data.map((element) => element.region))];
-        let subregion = [...new Set(data.map((element) => element.subregion))];
-        let regions = region.concat(subregion).sort();
+        const region = [...new Set(data.map((element) => element.region))];
+        const subregion = [
+            ...new Set(data.map((element) => element.subregion)),
+        ];
+        const regions = region.concat(subregion).sort();
 
         let html = `<option value="">All</option>`;
         regions.forEach((element) => {
@@ -141,31 +146,28 @@ function filter(e) {
 
 function showDetails(country, scroll = true) {
     const element = countries.find((obj) => obj.name === country.id);
-    const borders = countries.filter((obj) =>
-        element.borders.includes(obj.alpha3Code)
-    );
-    let borderNames = "";
-    borders.forEach(
-        (obj) =>
-            (borderNames += `<span onclick="showDetails(this, false)" id="${obj.name}" class="border">${obj.name}</span>`)
-    );
+    const borders = countries
+        .filter((obj) => element.borders.includes(obj.alpha3Code))
+        .map(
+            (obj) =>
+                `<span onclick="showDetails(this, false)" id="${obj.name}" class="border">${obj.name}</span>`
+        );
 
     document.querySelector("#detail-content").innerHTML = createDetails(
         element,
-        borderNames
+        borders
     );
 
     if (scroll) {
         position = window.scrollY;
     }
 
-    window.scroll(0, 0);
-
-    document.querySelector("#section-form").style.display = "none";
-    document.querySelector("#main-content").style.display = "none";
-    document.querySelector("#detail-content").style.display = "block";
+    display("none", "block", 0);
 
     function createDetails(element, borders) {
+        const lister = (element, key) =>
+            element[key].map((obj) => obj.name).join(", ");
+
         return `
     <div id="back" onclick="back()">Back</div>
     <div id="flex-details">
@@ -181,19 +183,21 @@ function showDetails(country, scroll = true) {
                     <li><span>Sub Region:</span> ${element.subregion}</li>
                 </ul>
                 <ul>
-                    <li><span>Language:</span> ${[
-                        ...element.languages.map((lan) => lan.name),
-                    ]}</li>
+                    <li><span>Language:</span> ${lister(
+                        element,
+                        "languages"
+                    )}</li>
                     <li><span>Population:</span> ${element.population.toLocaleString(
                         "es-MX"
                     )}</li>
-                    <li><span>Currencies:</span> ${[
-                        ...element.currencies.map((cur) => cur.name),
-                    ]}</li>
+                    <li><span>Currencies:</span> ${lister(
+                        element,
+                        "currencies"
+                    )}</li>
                 </ul>
             </div>
             <ul id="borders">
-                <li>Borders: ${borders}</li>
+                <li>Borders: ${borders.join("")}</li>
             </ul>
         </div>
     </div>`;
@@ -201,9 +205,13 @@ function showDetails(country, scroll = true) {
 }
 
 function back() {
-    document.querySelector("#detail-content").style.display = "none";
-    document.querySelector("#section-form").style.display = "flex";
-    document.querySelector("#main-content").style.display = "flex";
-    window.scroll(0, position);
+    display("flex", "none", position);
     gridLayout();
+}
+
+function display(page1, page2 = "none", position = 0) {
+    document.querySelector("#section-form").style.display = page1;
+    document.querySelector("#main-content").style.display = page1;
+    document.querySelector("#detail-content").style.display = page2;
+    window.scroll(0, position);
 }

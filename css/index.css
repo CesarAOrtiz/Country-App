@@ -217,6 +217,7 @@ header {
 }
 
 #data ul {
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding: 0px 10px;
@@ -302,27 +303,22 @@ header {
 body.dark-theme {
     --color-bg: rgb(32, 44, 55);
     --color-element-bg: hsl(209, 23%, 22%);
-    --color-form-bg: hsl(208, 11%, 26%);
     --color-text: hsl(0, 0%, 100%);
 }
 
 body.light-theme {
     --color-bg: rgb(224, 224, 224);
     --color-element-bg: hsl(0, 0%, 100%);
-    --color-form-bg: rgb(243, 243, 243);
     --color-text: hsl(200, 15%, 8%);
 }
 
 header,
+#form,
+#filter,
 .card,
 #back,
 .border {
     background-color: var(--color-element-bg);
-}
-
-#form,
-#filter {
-    background-color: var(--color-form-bg);
 }
 
 #search-field,
