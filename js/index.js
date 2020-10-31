@@ -200,7 +200,7 @@ async function showDetails(country, scroll = true) {
     }
 }
 
-async function back() {
+function back() {
     document.querySelector("#detail-content").style.display = "none";
     document.querySelector("#section-form").style.display = "flex";
     document.querySelector("#main-content").style.display = "flex";
