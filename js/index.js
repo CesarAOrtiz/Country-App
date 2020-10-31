@@ -1,4 +1,4 @@
-window.onload = async () => {
+window.onload = () => {
     getMedia();
     callAPI();
 };
@@ -90,7 +90,7 @@ function showRegions(data) {
 function gridLayout() {
     let section = document.querySelector("#main-content");
     let grid = document.querySelector("#container");
-    let cell = document.querySelector("c-card");
+    let cell = document.querySelector(".block");
     let cellMargin = parseInt(window.getComputedStyle(cell).margin);
     let space = parseInt(
         section.clientWidth /
@@ -121,22 +121,6 @@ function filter(e) {
     );
     showComponents(coincidense);
 
-    show(filterData);
-    window.scroll(0, 0);
-}
-
-async function filter(e) {
-    let option = e.target.options[e.target.selectedIndex].value;
-    let coincidense = countries.filter(
-        (obj) => obj.region.includes(option) || obj.subregion.includes(option)
-    );
-    let results = coincidense.map((obj) => obj.name);
-
-    const filterData = countries.filter((object) =>
-        results.includes(object.name)
-    );
-
-    show(filterData);
     window.scroll(0, 0);
 }
 
@@ -222,30 +206,4 @@ async function back() {
     document.querySelector("#main-content").style.display = "flex";
     window.scroll(0, position);
     gridLayout();
-}
-
-class Card extends HTMLElement {
-    connectedCallback() {
-        this.img = this.appendChild(document.createElement("img"));
-        this.ul = this.appendChild(document.createElement("ul"));
-        this.addEventListener("click", () => showDetails(this), false);
-    }
-
-    createCard(element) {
-        this.id = element.name;
-        this.img.width = "220";
-        this.img.height = "150";
-        this.img.src = element.flag;
-        this.img.alt = `Flag of${element.name}`;
-        this.addData(element.name);
-        this.addData(element.capital, "Capital:");
-        this.addData(element.region, "Region:");
-        this.addData(element.population.toLocaleString("es-MX"), "Population:");
-    }
-
-    addData(text, label = "") {
-        let li = document.createElement("li");
-        li.textContent = `${label} ${text}`;
-        this.ul.appendChild(li);
-    }
 }
