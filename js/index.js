@@ -25,7 +25,9 @@ function getMedia() {
 
 async function callAPI() {
     try {
-        const response = await fetch("https://restcountries.eu/rest/v2/all");
+        const response = await fetch(
+            "https://restcountries.eu/rest/v2/all?fields=name;capital;currencies;alpha3Code;region;subregion;flag;population;borders;languages"
+        );
         const data = await response.json();
         await showComponents(data);
         gridLayout();
@@ -153,8 +155,9 @@ async function mode() {
 }
 
 async function showDetails(country, scroll = true) {
-    console.log(components);
-    document.querySelector("#details").innerHTML = await createDetails(country);
+    document.querySelector("#detail-content").innerHTML = await createDetails(
+        country
+    );
 
     if (scroll) {
         position = window.scrollY;
@@ -166,10 +169,10 @@ async function showDetails(country, scroll = true) {
     document.querySelector("#detail-content").style.display = "block";
 
     async function createDetails(country) {
-        let element = components.find(
-            (object) => object.dataset.name === country.dataset.name
-        ).dataset;
-
+        let element = countries.find(
+            (object) => object.name === country.dataset.name
+        );
+        console.log(element);
         return `
             <div id="back" onclick="back()">Back</div>
             <div id="flex-details">
