@@ -1,7 +1,5 @@
 window.onload = async () => {
     getMedia();
-    gridLayout();
-    components = Array.from(document.querySelectorAll(".block"));
     window.addEventListener("resize", gridLayout, false);
     document.querySelector("#mode").addEventListener("click", mode, false);
     document.querySelector("#form").addEventListener("submit", search, false);
@@ -30,8 +28,10 @@ async function callAPI() {
         const response = await fetch("https://restcountries.eu/rest/v2/all");
         const data = await response.json();
         await showComponents(data);
+        gridLayout();
         showRegions(data);
         countries = data;
+        components = Array.from(document.querySelectorAll(".block"));
     } catch (error) {
         console.log(error);
     }
@@ -123,30 +123,6 @@ async function gridLayout() {
     grid.style.gridTemplateColumns = `repeat(${space}, 1fr)`;
 }
 
-async function filter(e) {
-    let option = e.target.options[e.target.selectedIndex].value;
-    let coincidense = components
-        .filter(
-            (obj) =>
-                obj.dataset.region.includes(option) ||
-                obj.dataset.subregion.includes(option)
-        )
-        .map((obj) => obj.dataset.name);
-
-    components.forEach((object) => {
-        if (coincidense.includes(object.dataset.name)) {
-            object.style.display = "block";
-        } else {
-            object.style.display = "none";
-        }
-    });
-}
-
-async function mode() {
-    document.body.classList.toggle("dark-theme");
-    document.body.classList.toggle("light-theme");
-}
-
 async function search(e) {
     e.preventDefault();
 
@@ -155,18 +131,29 @@ async function search(e) {
         .value.toLowerCase()
         .trim();
 
-    components.forEach((object) => {
-        if (object.dataset.name.toLowerCase().includes(search)) {
-            object.style.display = "block";
-        } else {
-            object.style.display = "none";
-        }
-    });
+    const coincidense = countries.filter((object) =>
+        object.name.toLowerCase().includes(search)
+    );
+    showComponents(coincidense);
 
     window.scroll(0, 0);
 }
 
+async function filter(e) {
+    let option = e.target.options[e.target.selectedIndex].value;
+    let coincidense = countries.filter(
+        (obj) => obj.region.includes(option) || obj.subregion.includes(option)
+    );
+    showComponents(coincidense);
+}
+
+async function mode() {
+    document.body.classList.toggle("dark-theme");
+    document.body.classList.toggle("light-theme");
+}
+
 async function showDetails(country, scroll = true) {
+    console.log(components);
     document.querySelector("#details").innerHTML = await createDetails(country);
 
     if (scroll) {
