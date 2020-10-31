@@ -1,16 +1,29 @@
 window.onload = async () => {
-    await callAPI();
+    getMedia();
     gridLayout();
     components = Array.from(document.querySelectorAll(".block"));
     window.addEventListener("resize", gridLayout, false);
     document.querySelector("#mode").addEventListener("click", mode, false);
     document.querySelector("#form").addEventListener("submit", search, false);
     document.querySelector("#search").addEventListener("click", search, false);
-    document.querySelector("#select").addEventListener("change", filter, false);
+    document.querySelector("#filter").addEventListener("change", filter, false);
+    callAPI();
 };
 
+var countries;
 var components;
 var position;
+
+function getMedia() {
+    const media = window.matchMedia(
+        "(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
+    );
+    if (media.matches) {
+        document.body.classList.add("light-theme");
+    } else {
+        document.body.classList.add("dark-theme");
+    }
+}
 
 async function callAPI() {
     try {
@@ -18,6 +31,7 @@ async function callAPI() {
         const data = await response.json();
         await showComponents(data);
         showRegions(data);
+        countries = data;
     } catch (error) {
         console.log(error);
     }
@@ -79,7 +93,7 @@ async function showComponents(data) {
 }
 
 async function showRegions(data) {
-    document.querySelector("#select").innerHTML = await creatRegion(data);
+    document.querySelector("#filter").innerHTML = await creatRegion(data);
 
     async function creatRegion(data) {
         let region = [...new Set(data.map((element) => element.region))];
@@ -129,21 +143,8 @@ async function filter(e) {
 }
 
 async function mode() {
-    let body = document.body;
-    let bgColor = window.getComputedStyle(body).backgroundColor;
-    let change = body.style;
-    if (bgColor === "rgb(224, 224, 224)") {
-        change.setProperty("--bgc", "rgb(32, 44, 55)");
-        change.setProperty("--ebg", "hsl(209, 23%, 22%)");
-        change.setProperty("--lc", "hsl(0, 0%, 100%)");
-        change.setProperty("--fbg", "hsl(208, 11%, 26%)");
-    }
-    if (bgColor === "rgb(32, 44, 55)") {
-        change.setProperty("--bgc", "rgb(224, 224, 224)");
-        change.setProperty("--ebg", "hsl(0, 0%, 100%)");
-        change.setProperty("--lc", "hsl(200, 15%, 8%)");
-        change.setProperty("--fbg", "rgb(240, 240, 240)");
-    }
+    document.body.classList.toggle("dark-theme");
+    document.body.classList.toggle("light-theme");
 }
 
 async function search(e) {
@@ -214,7 +215,7 @@ async function showDetails(country, scroll = true) {
                             .map((borde) => {
                                 if (borde) {
                                     return `<span onclick='showDetails(this, false)' 
-                            data-name="${borde}">${borde}</span>`;
+                            data-name="${borde}" class="border">${borde}</span>`;
                                 }
                             })
                             .join("")}</li>
