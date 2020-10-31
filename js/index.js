@@ -1,17 +1,27 @@
 window.onload = async () => {
+    getMedia();
     customElements.define("c-card", Card);
-    await callAPI();
-    components = Array.from(document.querySelectorAll("c-card"));
     document.querySelector("#form").addEventListener("submit", search, false);
     document.querySelector("#search").addEventListener("click", search, false);
-    document.querySelector("#select").addEventListener("change", filter, false);
+    document.querySelector("#filter").addEventListener("change", filter, false);
     document.querySelector("#mode").addEventListener("click", mode, false);
     window.addEventListener("resize", gridLayout, false);
+    callAPI();
 };
 
 var countries;
-var components;
 var position;
+
+function getMedia() {
+    const media = window.matchMedia(
+        "(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"
+    );
+    if (media.matches) {
+        document.body.classList.add("light-theme");
+    } else {
+        document.body.classList.add("dark-theme");
+    }
+}
 
 async function callAPI() {
     try {
@@ -28,6 +38,7 @@ async function callAPI() {
 
 async function show(object) {
     let container = document.querySelector("#container");
+    container.innerHTML = "";
     object.map((element) => {
         let card = document.createElement("c-card");
         container.appendChild(card);
@@ -36,7 +47,7 @@ async function show(object) {
 }
 
 async function showRegions(data) {
-    document.querySelector("#select").innerHTML = await creatRegion(data);
+    document.querySelector("#filter").innerHTML = await creatRegion(data);
 
     async function creatRegion(data) {
         let region = [...new Set(data.map((element) => element.region))];
@@ -67,21 +78,8 @@ async function gridLayout() {
 }
 
 async function mode() {
-    let body = document.body;
-    let bgColor = window.getComputedStyle(body).backgroundColor;
-    let change = body.style;
-    if (bgColor === "rgb(224, 224, 224)") {
-        change.setProperty("--bgc", "rgb(32, 44, 55)");
-        change.setProperty("--ebg", "hsl(209, 23%, 22%)");
-        change.setProperty("--lc", "hsl(0, 0%, 100%)");
-        change.setProperty("--fbg", "hsl(208, 11%, 26%)");
-    }
-    if (bgColor === "rgb(32, 44, 55)") {
-        change.setProperty("--bgc", "rgb(224, 224, 224)");
-        change.setProperty("--ebg", "hsl(0, 0%, 100%)");
-        change.setProperty("--lc", "hsl(200, 15%, 8%)");
-        change.setProperty("--fbg", "rgb(240, 240, 240)");
-    }
+    document.body.classList.toggle("dark-theme");
+    document.body.classList.toggle("light-theme");
 }
 
 function search(e) {
@@ -91,13 +89,11 @@ function search(e) {
         .value.toLowerCase()
         .trim();
 
-    components.forEach((object) => {
-        if (object.id.toLowerCase().includes(search)) {
-            object.style.display = "block";
-        } else {
-            object.style.display = "none";
-        }
-    });
+    const filterData = countries.filter((object) =>
+        object.name.toLowerCase().includes(search)
+    );
+
+    show(filterData);
     window.scroll(0, 0);
 }
 
@@ -108,13 +104,12 @@ async function filter(e) {
     );
     let results = coincidense.map((obj) => obj.name);
 
-    components.forEach((object) => {
-        if (results.includes(object.id)) {
-            object.style.display = "block";
-        } else {
-            object.style.display = "none";
-        }
-    });
+    const filterData = countries.filter((object) =>
+        results.includes(object.name)
+    );
+
+    show(filterData);
+    window.scroll(0, 0);
 }
 
 async function showDetails(country, scroll = true) {
@@ -127,7 +122,7 @@ async function showDetails(country, scroll = true) {
     let borders = "";
     borderName.forEach(
         (obj) =>
-            (borders += `<span onclick="showDetails(this, false)" id="${obj}">${obj}</span>`)
+            (borders += `<span onclick="showDetails(this, false)" id="${obj}" class="border">${obj}</span>`)
     );
 
     document.querySelector("#detail-content").innerHTML = await createDetails(

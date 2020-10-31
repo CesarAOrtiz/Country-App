@@ -22,7 +22,6 @@ section,
 }
 
 header {
-    background: var(--ebg);
     position: absolute;
     top: 0;
     left: 0;
@@ -52,7 +51,6 @@ header {
 }
 
 form {
-    background: var(--ebg);
     border-radius: 20px;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
     max-width: 800px;
@@ -82,9 +80,7 @@ form {
     height: 30px;
 }
 
-select {
-    background: var(--ebg);
-    color: var(--lc);
+#filter {
     width: 200px;
     padding: 5px;
     border-radius: 5px;
@@ -95,7 +91,7 @@ select {
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
 }
 
-select:hover {
+#filter:hover {
     cursor: pointer;
 }
 
@@ -116,7 +112,6 @@ c-card {
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     transition: all 0.25s;
-    background: var(--ebg);
 }
 
 c-card:hover {
@@ -134,7 +129,6 @@ c-card img {
 }
 
 @supports (object-fit: cover) {
-
     c-card img,
     #flex-details img {
         height: 50%;
@@ -164,66 +158,12 @@ c-card ul li:nth-child(1) {
     font-weight: 600;
 }
 
-@media (prefers-color-scheme: dark) {
-    body {
-        --ebg: hsl(209, 23%, 22%);
-        --lc: hsl(0, 0%, 100%);
-        --bgc: rgb(32, 44, 55);
-        --fbg: hsl(208, 11%, 26%);
-        background: var(--bgc);
-        color: var(--lc);
-    }
-
-    header,
-    c-card {
-        background-color: var(--ebg);
-    }
-
-    form,
-    select {
-        background: var(--fbg);
-    }
-
-    #search-field,
-    select {
-        color: var(--lc);
-    }
-}
-
-@media (prefers-color-scheme: light),
-(prefers-color-scheme: no-preference) {
-    body {
-        --ebg: hsl(0, 0%, 100%);
-        --lc: hsl(200, 15%, 8%);
-        --bgc: rgb(224, 224, 224);
-        --fbg: rgb(243, 243, 243);
-        color: var(--lc);
-        background-color: var(--bgc);
-    }
-
-    header,
-    c-card {
-        background-color: var(--ebg);
-    }
-
-    form,
-    select {
-        background-color: var(--fbg);
-    }
-
-    #search-field,
-    select {
-        color: var(--lc);
-    }
-}
-
 #detail-content {
     width: 90%;
     margin: 0px auto;
 }
 
 #back {
-    background-color: var(--ebg);
     padding: 10px 0;
     width: 100px;
     text-align: center;
@@ -233,7 +173,7 @@ c-card ul li:nth-child(1) {
 }
 
 #back:hover,
-#borders li span:hover {
+.border:hover {
     background-color: rgb(139, 139, 138);
     cursor: pointer;
 }
@@ -295,8 +235,7 @@ c-card ul li:nth-child(1) {
     list-style: none;
 }
 
-#borders li span {
-    background-color: var(--ebg);
+.border {
     display: inline-block;
     padding: 5px;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
@@ -351,7 +290,47 @@ c-card ul li:nth-child(1) {
         flex-direction: column;
     }
 
-    select {
+    #filter {
         margin-top: 15px;
     }
+}
+
+.dark-theme {
+    background: rgb(32, 44, 55);
+    color: hsl(0, 0%, 100%);
+}
+.dark-theme header,
+.dark-theme c-card,
+.dark-theme #back,
+.dark-theme #borders li span {
+    background: hsl(209, 23%, 22%);
+}
+.dark-theme form,
+.dark-theme #filter {
+    background: hsl(208, 11%, 26%);
+}
+.dark-theme #search-field,
+.dark-theme #back,
+.dark-theme #filter {
+    color: hsl(0, 0%, 100%);
+}
+
+.light-theme {
+    background: rgb(224, 224, 224);
+    color: hsl(200, 15%, 8%);
+}
+.light-theme header,
+.light-theme c-card,
+.light-theme #back,
+.light-theme #borders li span {
+    background: hsl(0, 0%, 100%);
+}
+.light-theme form,
+.light-theme #filter {
+    background: rgb(243, 243, 243);
+}
+.light-theme #search-field,
+.light-theme #back,
+.light-theme #filter {
+    color: hsl(200, 15%, 8%);
 }
