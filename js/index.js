@@ -1,13 +1,13 @@
 window.onload = async () => {
     getMedia();
-    customElements.define("c-card", Card);
-    document.querySelector("#form").addEventListener("submit", search, false);
-    document.querySelector("#search").addEventListener("click", search, false);
-    document.querySelector("#filter").addEventListener("change", filter, false);
-    document.querySelector("#mode").addEventListener("click", mode, false);
-    window.addEventListener("resize", gridLayout, false);
     callAPI();
 };
+
+document.querySelector("#mode").addEventListener("click", toggleMode, false);
+document.querySelector("#form").addEventListener("submit", search, false);
+document.querySelector("#search").addEventListener("click", search, false);
+document.querySelector("#filter").addEventListener("change", filter, false);
+window.addEventListener("resize", gridLayout, false);
 
 var countries;
 var position;
@@ -21,35 +21,57 @@ function getMedia() {
     } else {
         document.body.classList.add("dark-theme");
     }
+    getMode();
 }
 
 async function callAPI() {
     try {
-        const response = await fetch("https://restcountries.eu/rest/v2/all");
+        const response = await fetch(
+            "https://restcountries.eu/rest/v2/all?fields=name;capital;currencies;alpha3Code;region;subregion;flag;population;borders;languages"
+        );
         const data = await response.json();
-        await show(data);
-        gridLayout();
+        showComponents(data);
         showRegions(data);
+        gridLayout();
         countries = data;
     } catch (error) {
         console.log(error);
     }
 }
 
-async function show(object) {
-    let container = document.querySelector("#container");
-    container.innerHTML = "";
-    object.map((element) => {
-        let card = document.createElement("c-card");
-        container.appendChild(card);
-        card.createCard(element);
-    });
+function showComponents(data) {
+    document.querySelector("#container").innerHTML = createComponents(data);
+
+    function createComponents(object) {
+        let html = object
+            .map(
+                (element) => `
+                    <div id="${
+                        element.name
+                    }" class="block" onclick="showDetails(this, true)">
+                        <img width=220px hieght=150px src="${
+                            element.flag
+                        }" alt="Flag">
+                        <ul>
+                            <li><span>${element.name}</span></li>
+                            <li><span>Capital:</span> ${element.capital}</li>
+                            <li><span>Region:</span> ${element.region}</li>
+                            <li><span>Population:</span> ${element.population.toLocaleString(
+                                "es-MX"
+                            )}</li>
+                        </ul>
+                    </div>`
+            )
+            .join("");
+
+        return html;
+    }
 }
 
-async function showRegions(data) {
-    document.querySelector("#filter").innerHTML = await creatRegion(data);
+function showRegions(data) {
+    document.querySelector("#filter").innerHTML = creatRegion(data);
 
-    async function creatRegion(data) {
+    function creatRegion(data) {
         let region = [...new Set(data.map((element) => element.region))];
         let subregion = [...new Set(data.map((element) => element.subregion))];
         let regions = region.concat(subregion).sort();
@@ -65,7 +87,7 @@ async function showRegions(data) {
     }
 }
 
-async function gridLayout() {
+function gridLayout() {
     let section = document.querySelector("#main-content");
     let grid = document.querySelector("#container");
     let cell = document.querySelector("c-card");
@@ -77,21 +99,27 @@ async function gridLayout() {
     grid.style.gridTemplateColumns = `repeat(${space}, 1fr)`;
 }
 
-async function mode() {
-    document.body.classList.toggle("dark-theme");
-    document.body.classList.toggle("light-theme");
-}
-
 function search(e) {
     e.preventDefault();
-    let search = document
+
+    const search = document
         .querySelector("#search-field")
         .value.toLowerCase()
         .trim();
-
-    const filterData = countries.filter((object) =>
+    const coincidense = countries.filter((object) =>
         object.name.toLowerCase().includes(search)
     );
+    showComponents(coincidense);
+
+    window.scroll(0, 0);
+}
+
+function filter(e) {
+    const option = e.target.options[e.target.selectedIndex].value;
+    const coincidense = countries.filter(
+        (obj) => obj.region.includes(option) || obj.subregion.includes(option)
+    );
+    showComponents(coincidense);
 
     show(filterData);
     window.scroll(0, 0);
@@ -112,34 +140,48 @@ async function filter(e) {
     window.scroll(0, 0);
 }
 
-async function showDetails(country, scroll = true) {
-    let element = countries.find((obj) => obj.name === country.id);
+function toggleMode() {
+    document.body.classList.toggle("dark-theme");
+    document.body.classList.toggle("light-theme");
+    getMode();
+}
 
-    let border = countries.filter((obj) =>
+function getMode() {
+    let mode = document.querySelector("#mode");
+    if (document.body.className === "dark-theme") {
+        mode.innerHTML = "Light Mode";
+    } else {
+        mode.innerHTML = "Dark Mode";
+    }
+}
+
+async function showDetails(country, scroll = true) {
+    const element = countries.find((obj) => obj.name === country.id);
+    const borders = countries.filter((obj) =>
         element.borders.includes(obj.alpha3Code)
     );
-    let borderName = border.map((obj) => obj.name);
-    let borders = "";
-    borderName.forEach(
+    let borderNames = "";
+    borders.forEach(
         (obj) =>
-            (borders += `<span onclick="showDetails(this, false)" id="${obj}" class="border">${obj}</span>`)
+            (borderNames += `<span onclick="showDetails(this, false)" id="${obj.name}" class="border">${obj.name}</span>`)
     );
 
     document.querySelector("#detail-content").innerHTML = await createDetails(
         element,
-        borders
+        borderNames
     );
 
     if (scroll) {
         position = window.scrollY;
     }
+
     window.scroll(0, 0);
 
     document.querySelector("#section-form").style.display = "none";
     document.querySelector("#main-content").style.display = "none";
     document.querySelector("#detail-content").style.display = "block";
 
-    function createDetails(element, borders) {
+    async function createDetails(element, borders) {
         return `
     <div id="back" onclick="back()">Back</div>
     <div id="flex-details">

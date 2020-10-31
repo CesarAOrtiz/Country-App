@@ -8,12 +8,12 @@ body {
     margin-top: 20px;
     padding: 50px 0px;
     font-family: sans-serif;
-    transition: all 0.25s;
+    transition: all 0.1s;
 }
 
 header,
 form,
-c-card ul,
+.block ul,
 section,
 #flex-details {
     display: flex;
@@ -29,7 +29,7 @@ header {
     padding: 10px 5%;
     justify-content: space-between;
     font-weight: 600;
-    transition: all 0.25s;
+    transition: all 0.1s;
 }
 
 #logo {
@@ -57,7 +57,7 @@ form {
     width: 90%;
     margin: auto;
     padding: 5px 0px;
-    transition: all 0.25s;
+    transition: all 0.1s;
 }
 
 #search-field {
@@ -104,24 +104,24 @@ form {
     display: grid;
 }
 
-c-card {
+.block {
     width: 220px;
     height: 300px;
     margin: 10px;
     flex-direction: column;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
-    transition: all 0.25s;
+    transition: all 0.1s;
 }
 
-c-card:hover {
+.block :hover {
     cursor: pointer;
     margin-top: 2px;
     margin-bottom: 18px;
     box-shadow: 0px 8px 0px 0px rgba(0, 0, 0, 0.3);
 }
 
-c-card img {
+.block img {
     border-radius: 10px 10px 0px 0px;
     width: 100%;
     height: 160px;
@@ -129,7 +129,7 @@ c-card img {
 }
 
 @supports (object-fit: cover) {
-    c-card img,
+    .block img,
     #flex-details img {
         height: 50%;
         object-fit: cover;
@@ -141,7 +141,7 @@ c-card img {
     }
 }
 
-c-card ul {
+.block ul {
     width: 100%;
     height: 150px;
     flex-direction: column;
@@ -149,13 +149,19 @@ c-card ul {
     border-radius: 0px 0px 10px 10px;
 }
 
-c-card ul li {
+.block ul li {
     margin: 5px 10px;
     list-style: none;
 }
 
-c-card ul li:nth-child(1) {
+.block ul li:nth-child(1) {
     font-weight: 600;
+    font-size: 16px;
+}
+
+.block ul li span {
+    font-weight: bolder;
+    font-size: 15px;
 }
 
 #detail-content {
@@ -166,10 +172,12 @@ c-card ul li:nth-child(1) {
 #back {
     padding: 10px 0;
     width: 100px;
+    font-weight: 600;
+    font-size: 16px;
     text-align: center;
     border-radius: 5px;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
-    transition: all 0.25s;
+    transition: all 0.1s;
 }
 
 #back:hover,
@@ -241,7 +249,7 @@ c-card ul li:nth-child(1) {
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
     margin: 0px 10px 5px 0px;
-    transition: all 0.25s;
+    transition: all 0.1s;
 }
 
 @media (max-width: 1110px) {
@@ -268,7 +276,7 @@ c-card ul li:nth-child(1) {
         padding: 0px;
     }
 
-    #borders li span {
+    .border {
         margin: 0px 10px 5px 0px;
     }
 
@@ -300,9 +308,9 @@ c-card ul li:nth-child(1) {
     color: hsl(0, 0%, 100%);
 }
 .dark-theme header,
-.dark-theme c-card,
+.dark-theme .block,
 .dark-theme #back,
-.dark-theme #borders li span {
+.dark-theme .border {
     background: hsl(209, 23%, 22%);
 }
 .dark-theme form,
@@ -320,9 +328,9 @@ c-card ul li:nth-child(1) {
     color: hsl(200, 15%, 8%);
 }
 .light-theme header,
-.light-theme c-card,
+.light-theme .block,
 .light-theme #back,
-.light-theme #borders li span {
+.light-theme .border {
     background: hsl(0, 0%, 100%);
 }
 .light-theme form,
