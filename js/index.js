@@ -162,7 +162,8 @@ function showDetails(country, scroll = true) {
         position = window.scrollY;
     }
 
-    display("none", "block", 0);
+    document.body.classList.add("in-detail");
+    display("flex", "block", 0);
 
     function createDetails(element, borders) {
         const lister = (element, key) =>
@@ -205,6 +206,7 @@ function showDetails(country, scroll = true) {
 }
 
 function back() {
+    document.body.classList.remove("in-detail");
     display("flex", "none", position);
     gridLayout();
 }

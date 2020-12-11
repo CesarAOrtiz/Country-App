@@ -163,6 +163,7 @@ header {
 }
 
 #detail-content {
+    height: 100vh;
     width: 90%;
     margin: 0px auto;
 }
@@ -324,4 +325,8 @@ header,
 #search-field,
 #filter {
     color: var(--color-text);
+}
+
+.in-detail {
+    overflow: hidden;
 }
