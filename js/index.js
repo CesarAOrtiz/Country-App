@@ -10,7 +10,7 @@ document.querySelector("#filter").addEventListener("change", filter, false);
 window.addEventListener("resize", gridLayout, false);
 
 var countries;
-var position;
+var scrollPosition;
 
 function getMedia() {
     const media = window.matchMedia(
@@ -156,7 +156,7 @@ function showDetails(country, scroll = true) {
     );
 
     if (scroll) {
-        position = window.scrollY;
+        scrollPosition = window.scrollY;
     }
 
     window.scroll(0, 0);
@@ -204,6 +204,6 @@ function back() {
     document.querySelector("#detail-content").style.display = "none";
     document.querySelector("#section-form").style.display = "flex";
     document.querySelector("#main-content").style.display = "flex";
-    window.scroll(0, position);
+    window.scroll(0, scrollPosition);
     gridLayout();
 }
