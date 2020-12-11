@@ -35,11 +35,9 @@ function getMode() {
 
 function toggleMode() {
     if (document.body.className === "dark-theme") {
-        document.body.classList.remove("dark-theme");
-        document.body.classList.add("light-theme");
+        document.body.className = "light-theme";
     } else {
-        document.body.classList.remove("light-theme");
-        document.body.classList.add("dark-theme");
+        document.body.className = "dark-theme";
     }
     getMode();
 }
@@ -164,8 +162,7 @@ function showDetails(country, scroll = true) {
         position = window.scrollY;
     }
 
-    document.body.classList.add("in-detail");
-    display("flex", "block", 0);
+    display("none", "block", 0);
 
     function createDetails(element, borders) {
         const lister = (element, key) =>
@@ -208,7 +205,6 @@ function showDetails(country, scroll = true) {
 }
 
 function back() {
-    document.body.classList.remove("in-detail");
     display("flex", "none", position);
     gridLayout();
 }

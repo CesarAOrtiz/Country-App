@@ -326,7 +326,3 @@ header,
 #filter {
     color: var(--color-text);
 }
-
-.in-detail {
-    overflow: hidden;
-}
